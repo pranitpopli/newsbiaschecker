@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, Settings, X, ExternalLink } from "lucide-react";
 import { SummaryView } from "./SummaryView";
 import { EditorialCompliance } from "./EditorialCompliance";
+
 interface ComplianceIssue {
   type: 'policy_violation' | 'factual_deviation' | 'bias' | 'tone_shift';
   severity: 'low' | 'medium' | 'high';
@@ -22,6 +23,7 @@ interface ComplianceIssue {
   startIndex: number;
   endIndex: number;
 }
+
 interface AIPlaygroundProps {
   formData: any;
   setFormData: (data: any) => void;
@@ -36,13 +38,14 @@ interface AIPlaygroundProps {
   onRejectSuggestion?: (issue: ComplianceIssue) => void;
   onModifySuggestion?: (issue: ComplianceIssue) => void;
 }
-export const AIPlayground = ({
-  formData,
-  setFormData,
-  aiConfidence,
-  currentStep,
+
+export const AIPlayground = ({ 
+  formData, 
+  setFormData, 
+  aiConfidence, 
+  currentStep, 
   setCurrentStep,
-  onGenerate,
+  onGenerate, 
   isGenerating,
   onClose,
   complianceIssues = [],
@@ -50,14 +53,17 @@ export const AIPlayground = ({
   onRejectSuggestion,
   onModifySuggestion
 }: AIPlaygroundProps) => {
+  
   const aiImpactPercentage = aiConfidence?.percentage || 68;
-  return <div className="w-[400px] border-l border-border bg-background flex flex-col h-screen">
+
+  return (
+    <div className="w-[400px] border-l border-border bg-background flex flex-col h-screen">
       {/* Header */}
       <div className="border-b border-border px-6 py-4 bg-background">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">AI Playground</h2>
           <div className="flex items-center gap-3">
-            <Badge variant="secondary" className="bg-orange-100 text-orange-800 mx-[8px] px-[8px]">
+            <Badge variant="secondary" className="bg-orange-100 text-orange-800">
               AI Impact: {aiImpactPercentage}%
             </Badge>
             <Button variant="ghost" size="sm" className="text-primary">
@@ -98,10 +104,7 @@ export const AIPlayground = ({
               <div className="space-y-6">
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">Type*</Label>
-                  <Select value={formData.type} onValueChange={value => setFormData(prev => ({
-                  ...prev,
-                  type: value
-                }))}>
+                  <Select value={formData.type} onValueChange={value => setFormData(prev => ({ ...prev, type: value }))}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -115,10 +118,7 @@ export const AIPlayground = ({
 
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">Days Back*</Label>
-                  <Select value={formData.daysBack} onValueChange={value => setFormData(prev => ({
-                  ...prev,
-                  daysBack: value
-                }))}>
+                  <Select value={formData.daysBack} onValueChange={value => setFormData(prev => ({ ...prev, daysBack: value }))}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -133,10 +133,7 @@ export const AIPlayground = ({
 
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">Length*</Label>
-                  <Select value={formData.length} onValueChange={value => setFormData(prev => ({
-                  ...prev,
-                  length: value
-                }))}>
+                  <Select value={formData.length} onValueChange={value => setFormData(prev => ({ ...prev, length: value }))}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -156,38 +153,52 @@ export const AIPlayground = ({
                 
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">Title</Label>
-                  <Input value={formData.title} onChange={e => setFormData(prev => ({
-                  ...prev,
-                  title: e.target.value
-                }))} placeholder="Enter fact box title..." />
+                  <Input
+                    value={formData.title}
+                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                    placeholder="Enter fact box title..."
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">Text</Label>
-                  <Input value={formData.text} onChange={e => setFormData(prev => ({
-                  ...prev,
-                  text: e.target.value
-                }))} placeholder="Additional text..." />
+                  <Input
+                    value={formData.text}
+                    onChange={(e) => setFormData(prev => ({ ...prev, text: e.target.value }))}
+                    placeholder="Additional text..."
+                  />
                 </div>
               </div>
 
               {/* Generated Summary */}
-              {formData.aiSummary && <div className="space-y-4">
+              {formData.aiSummary && (
+                <div className="space-y-4">
                   <h3 className="text-sm font-semibold">Generated Summary</h3>
                   <div className="border border-border rounded-lg">
                     <ScrollArea className="h-48">
-                      <Textarea value={formData.aiSummary} onChange={e => setFormData(prev => ({
-                    ...prev,
-                    aiSummary: e.target.value
-                  }))} className="border-0 resize-none p-4 text-sm leading-relaxed" placeholder="AI-generated summary will appear here..." />
+                      <Textarea
+                        value={formData.aiSummary}
+                        onChange={(e) => setFormData(prev => ({ ...prev, aiSummary: e.target.value }))}
+                        className="border-0 resize-none p-4 text-sm leading-relaxed"
+                        placeholder="AI-generated summary will appear here..."
+                      />
                     </ScrollArea>
                   </div>
                   
                   {/* Issues and Suggestions */}
-                  {complianceIssues.length > 0 && <div className="mt-4">
-                      <SummaryView summary={formData.aiSummary} complianceIssues={complianceIssues} onAcceptSuggestion={onAcceptSuggestion} onRejectSuggestion={onRejectSuggestion} onModifySuggestion={onModifySuggestion} />
-                    </div>}
-                </div>}
+                  {complianceIssues.length > 0 && (
+                    <div className="mt-4">
+                      <SummaryView
+                        summary={formData.aiSummary}
+                        complianceIssues={complianceIssues}
+                        onAcceptSuggestion={onAcceptSuggestion}
+                        onRejectSuggestion={onRejectSuggestion}
+                        onModifySuggestion={onModifySuggestion}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Editorial Compliance */}
               <div className="space-y-4">
@@ -201,26 +212,30 @@ export const AIPlayground = ({
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label className="text-sm font-medium">Auto Disclosure</Label>
-                    <Switch checked={formData.autoDisclosure} onCheckedChange={checked => setFormData(prev => ({
-                    ...prev,
-                    autoDisclosure: checked
-                  }))} />
+                    <Switch 
+                      checked={formData.autoDisclosure} 
+                      onCheckedChange={checked => setFormData(prev => ({ ...prev, autoDisclosure: checked }))} 
+                    />
                   </div>
                   
                   <div className="space-y-2">
                     <Label className="text-sm font-medium">AI model used</Label>
-                    <Input value={formData.aiModelUsed} onChange={e => setFormData(prev => ({
-                    ...prev,
-                    aiModelUsed: e.target.value
-                  }))} placeholder="GPT-4" />
+                    <Input
+                      value={formData.aiModelUsed}
+                      onChange={(e) => setFormData(prev => ({ ...prev, aiModelUsed: e.target.value }))}
+                      placeholder="GPT-4"
+                    />
                   </div>
 
                   <div className="space-y-2">
                     <Label className="text-sm font-medium">Human Review Description</Label>
-                    <Textarea value={formData.humanReviewDescription} onChange={e => setFormData(prev => ({
-                    ...prev,
-                    humanReviewDescription: e.target.value
-                  }))} className="text-sm" rows={3} placeholder="Describe the human review process..." />
+                    <Textarea
+                      value={formData.humanReviewDescription}
+                      onChange={(e) => setFormData(prev => ({ ...prev, humanReviewDescription: e.target.value }))}
+                      className="text-sm"
+                      rows={3}
+                      placeholder="Describe the human review process..."
+                    />
                   </div>
 
                   <div className="space-y-3">
@@ -246,7 +261,12 @@ export const AIPlayground = ({
       {/* Bottom Action Buttons */}
       <div className="border-t border-border p-6 space-y-3">
         <div className="grid grid-cols-2 gap-3">
-          <Button variant="default" onClick={onGenerate} disabled={isGenerating} className="bg-black text-white hover:bg-black/90">
+          <Button 
+            variant="default" 
+            onClick={onGenerate}
+            disabled={isGenerating}
+            className="bg-black text-white hover:bg-black/90"
+          >
             <Settings className="h-4 w-4 mr-2" />
             Generate
           </Button>
@@ -261,9 +281,12 @@ export const AIPlayground = ({
           Save/Copy
         </Button>
         
-        {formData.aiSummary && <p className="text-xs text-muted-foreground text-center">
+        {formData.aiSummary && (
+          <p className="text-xs text-muted-foreground text-center">
             Unsaved changes
-          </p>}
+          </p>
+        )}
       </div>
-    </div>;
+    </div>
+  );
 };
