@@ -41,6 +41,7 @@ interface AIConfidence {
 }
 
 export const BiasChecker = () => {
+  // Force rebuild to clear cache - fixed isAIOpen reference
   const [formData, setFormData] = useState<FormData>({
     originalArticle: `The City Council today unveiled an ambitious new urban renewal project, dubbed "Greenhaven," set to transform the downtown core over the next decade. Mayor Johnson hailed the initiative as a "landmark step towards a sustainable and vibrant future for our city."
 
