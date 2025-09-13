@@ -65,10 +65,21 @@ export default {
           medium: "hsl(var(--bias-medium))",
           high: "hsl(var(--bias-high))",
         },
-        "tone-shift": "hsl(var(--tone-shift))",
-        "policy-violation": "hsl(var(--policy-violation))",
-        "factual-deviation": "hsl(var(--factual-deviation))",
-        "bias-issue": "hsl(var(--bias-issue))",
+        "tone-shift-low": "hsl(var(--tone-shift-low))",
+        "tone-shift-medium": "hsl(var(--tone-shift-medium))",
+        "tone-shift-high": "hsl(var(--tone-shift-high))",
+        
+        "policy-violation-low": "hsl(var(--policy-violation-low))",
+        "policy-violation-medium": "hsl(var(--policy-violation-medium))",
+        "policy-violation-high": "hsl(var(--policy-violation-high))",
+        
+        "factual-deviation-low": "hsl(var(--factual-deviation-low))",
+        "factual-deviation-medium": "hsl(var(--factual-deviation-medium))",
+        "factual-deviation-high": "hsl(var(--factual-deviation-high))",
+        
+        "bias-issue-low": "hsl(var(--bias-issue-low))",
+        "bias-issue-medium": "hsl(var(--bias-issue-medium))",
+        "bias-issue-high": "hsl(var(--bias-issue-high))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

@@ -52,11 +52,22 @@ All colors MUST be HSL.
     --bias-medium: 38 92% 50%;
     --bias-high: 0 84.2% 60.2%;
 
-    /* Issue type colors */
-    --tone-shift: 142 76% 36%;
-    --policy-violation: 0 84.2% 60.2%;
-    --factual-deviation: 38 92% 50%;
-    --bias-issue: 271 81% 56%;
+    /* Issue type colors - severity based */
+    --tone-shift-low: 134 239 172; /* green-300 */
+    --tone-shift-medium: 74 222 128; /* green-400 */
+    --tone-shift-high: 34 197 94; /* green-500 */
+    
+    --policy-violation-low: 252 165 165; /* red-300 */
+    --policy-violation-medium: 248 113 113; /* red-400 */
+    --policy-violation-high: 239 68 68; /* red-500 */
+    
+    --factual-deviation-low: 253 186 116; /* orange-300 */
+    --factual-deviation-medium: 251 146 60; /* orange-400 */
+    --factual-deviation-high: 249 115 22; /* orange-500 */
+    
+    --bias-issue-low: 196 181 253; /* purple-300 */
+    --bias-issue-medium: 167 139 250; /* purple-400 */
+    --bias-issue-high: 147 51 234; /* purple-500 */
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
@@ -122,10 +133,22 @@ All colors MUST be HSL.
     --bias-medium: 38 92% 50%;
     --bias-high: 0 62.8% 30.6%;
 
-    --tone-shift: 142 76% 36%;
-    --policy-violation: 0 62.8% 30.6%;
-    --factual-deviation: 38 92% 50%;
-    --bias-issue: 271 81% 56%;
+    /* Issue type colors - severity based */
+    --tone-shift-low: 74 222 128; /* green-400 */
+    --tone-shift-medium: 34 197 94; /* green-500 */
+    --tone-shift-high: 22 163 74; /* green-600 */
+    
+    --policy-violation-low: 248 113 113; /* red-400 */
+    --policy-violation-medium: 239 68 68; /* red-500 */
+    --policy-violation-high: 220 38 38; /* red-600 */
+    
+    --factual-deviation-low: 251 146 60; /* orange-400 */
+    --factual-deviation-medium: 249 115 22; /* orange-500 */
+    --factual-deviation-high: 234 88 12; /* orange-600 */
+    
+    --bias-issue-low: 167 139 250; /* purple-400 */
+    --bias-issue-medium: 147 51 234; /* purple-500 */
+    --bias-issue-high: 126 34 206; /* purple-600 */
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;

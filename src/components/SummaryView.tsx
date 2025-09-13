@@ -36,46 +36,18 @@ export const SummaryView = ({
   const [hoveredIssue, setHoveredIssue] = useState<string | null>(null);
   const editableRef = useRef<HTMLDivElement>(null);
   const getHighlightClass = (severity: 'low' | 'medium' | 'high', type: string, isHovered: boolean = false) => {
-    const baseClass = 'border-2 rounded px-1 transition-all duration-200';
-    const opacity = isHovered ? '40' : '20';
-    const borderOpacity = isHovered ? '60' : '40';
+    const baseClass = 'border-2 rounded px-1 transition-all duration-300';
+    const opacity = isHovered ? '60' : '15';
+    const borderOpacity = isHovered ? '80' : '30';
     
-    // Use issue type colors instead of severity
-    switch (type) {
-      case 'tone_shift':
-        return `bg-tone-shift/${opacity} border-tone-shift/${borderOpacity} ${baseClass}`;
-      case 'policy_violation':
-        return `bg-policy-violation/${opacity} border-policy-violation/${borderOpacity} ${baseClass}`;
-      case 'factual_deviation':
-        return `bg-factual-deviation/${opacity} border-factual-deviation/${borderOpacity} ${baseClass}`;
-      case 'bias':
-        return `bg-bias-issue/${opacity} border-bias-issue/${borderOpacity} ${baseClass}`;
-      default:
-        // Fallback to severity colors
-        switch (severity) {
-          case 'low':
-            return `bg-bias-low/${opacity} border-bias-low/${borderOpacity} ${baseClass}`;
-          case 'medium':
-            return `bg-bias-medium/${opacity} border-bias-medium/${borderOpacity} ${baseClass}`;
-          case 'high':
-            return `bg-bias-high/${opacity} border-bias-high/${borderOpacity} ${baseClass}`;
-        }
-    }
+    // Use severity-based colors for each issue type
+    const colorKey = `${type.replace('_', '-')}-${severity}`;
+    return `bg-${colorKey}/${opacity} border-${colorKey}/${borderOpacity} ${baseClass}`;
   };
 
-  const getIssueTypeColor = (type: string) => {
-    switch (type) {
-      case 'tone_shift':
-        return 'bg-tone-shift text-white';
-      case 'policy_violation':
-        return 'bg-policy-violation text-white';
-      case 'factual_deviation':
-        return 'bg-factual-deviation text-white';
-      case 'bias':
-        return 'bg-bias-issue text-white';
-      default:
-        return 'bg-muted text-muted-foreground';
-    }
+  const getIssueTypeColor = (type: string, severity: 'low' | 'medium' | 'high') => {
+    const colorKey = `${type.replace('_', '-')}-${severity}`;
+    return `bg-${colorKey} text-white`;
   };
   const handleContentChange = () => {
     if (editable && editableRef.current && onSummaryChange) {
@@ -155,25 +127,7 @@ export const SummaryView = ({
   };
   const activeIssues = complianceIssues.filter(issue => !rejectedIssues.has(`${issue.startIndex}-${issue.endIndex}`));
   return <div className="space-y-4">
-      <Card>
-        <CardContent className="p-0">
-          <ScrollArea className="h-48">
-            <div 
-              ref={editableRef}
-              contentEditable={editable}
-              onInput={handleContentChange}
-              className={`p-6 prose prose-sm max-w-none ${editable ? 'outline-none focus:bg-muted/20' : ''}`}
-              suppressContentEditableWarning={true}
-            >
-            <div className="text-base leading-relaxed whitespace-pre-line">
-              {complianceIssues.length > 0 ? renderHighlightedText() : summary}
-            </div>
-            </div>
-          </ScrollArea>
-        </CardContent>
-      </Card>
-
-      {/* Compliance Issues Summary */}
+      {/* Compliance Issues Summary - Moved Above */}
       {(() => {
         const activeIssues = complianceIssues.filter(issue => !rejectedIssues.has(`${issue.startIndex}-${issue.endIndex}`));
         return (
@@ -193,7 +147,7 @@ export const SummaryView = ({
                       return (
                         <Badge 
                           key={index} 
-                          className={`text-xs cursor-pointer transition-all duration-200 hover:scale-105 ${getIssueTypeColor(issue.type)}`}
+                          className={`text-xs cursor-pointer transition-all duration-300 hover:scale-105 ${getIssueTypeColor(issue.type, issue.severity)}`}
                           onMouseEnter={() => setHoveredIssue(issueKey)}
                           onMouseLeave={() => setHoveredIssue(null)}
                         >
@@ -219,5 +173,23 @@ export const SummaryView = ({
           </>
         );
       })()}
+
+      <Card>
+        <CardContent className="p-0">
+          <ScrollArea className="h-48">
+            <div 
+              ref={editableRef}
+              contentEditable={editable}
+              onInput={handleContentChange}
+              className={`p-6 prose prose-sm max-w-none ${editable ? 'outline-none focus:bg-muted/20' : ''}`}
+              suppressContentEditableWarning={true}
+            >
+            <div className="text-base leading-relaxed whitespace-pre-line">
+              {complianceIssues.length > 0 ? renderHighlightedText() : summary}
+            </div>
+            </div>
+          </ScrollArea>
+        </CardContent>
+      </Card>
     </div>;
 };
