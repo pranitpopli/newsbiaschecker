@@ -11,7 +11,6 @@ import { Loader2, FileText, Brain, ChevronLeft, X, Settings, ChevronDown } from 
 import { useToast } from "@/hooks/use-toast";
 import { biasAnalyzer, BiasAnalysisResult } from "@/services/biasAnalysis";
 import { llmEvaluator, LLMEvaluationResult, EvaluationInput } from "@/services/llmEvaluation";
-
 interface FormData {
   originalArticle: string;
   aiSummary: string;
@@ -22,7 +21,6 @@ interface FormData {
   text: string;
   autoDisclosure: boolean;
 }
-
 export const BiasChecker = () => {
   const [formData, setFormData] = useState<FormData>({
     originalArticle: `The City Council today unveiled an ambitious new urban renewal project, dubbed "Greenhaven," set to transform the downtown core over the next decade. Mayor Johnson hailed the initiative as a "landmark step towards a sustainable and vibrant future for our city."
@@ -40,25 +38,22 @@ The project is projected to create over 500 new jobs during its construction pha
     length: "5 Points",
     title: "Kent would never be like Gessie – we forgive you",
     text: "100",
-    autoDisclosure: true,
+    autoDisclosure: true
   });
-
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiImpact, setAiImpact] = useState<number | null>(null);
   const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(false);
   const [currentView, setCurrentView] = useState<'main' | 'disclosure'>('main');
   const [biasResult, setBiasResult] = useState<BiasAnalysisResult | null>(null);
   const [llmResult, setLLMResult] = useState<LLMEvaluationResult | null>(null);
-
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const generateSummary = async () => {
     setIsGenerating(true);
-    
     try {
       // Simulate AI generation process
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
       const generatedSummary = `City Council launches "Greenhaven" urban renewal plan to revitalize downtown over the next 10 years.
 
 Key features:
@@ -72,30 +67,27 @@ Economic impact:
 • Project anticipated to attract significant investment.
 • Potential displacement of existing local businesses.
 • Traffic disruptions expected during extended construction phase.`;
-
-      setFormData(prev => ({ ...prev, aiSummary: generatedSummary }));
+      setFormData(prev => ({
+        ...prev,
+        aiSummary: generatedSummary
+      }));
       setAiImpact(68);
-      
       toast({
         title: "Summary Generated",
-        description: "AI has successfully generated the summary",
+        description: "AI has successfully generated the summary"
       });
     } catch (error) {
       console.error("Generation failed:", error);
       toast({
         title: "Generation Failed",
         description: "Failed to generate summary",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsGenerating(false);
     }
   };
-
-
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <div className="flex">
         {/* Main Content */}
         <div className="flex-1 p-6">
@@ -111,17 +103,14 @@ Economic impact:
                 </h1>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-sm text-muted-foreground">What's New</span>
+                
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                   Update
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </Button>
                 <Sheet open={isPlaygroundOpen} onOpenChange={setIsPlaygroundOpen}>
                   <SheetTrigger asChild>
-                    <Button 
-                      className="bg-primary text-primary-foreground hover:bg-primary/90"
-                      size="sm"
-                    >
+                    <Button className="bg-primary text-primary-foreground hover:bg-primary/90" size="sm">
                       <Brain className="h-4 w-4 mr-2" />
                       AI
                     </Button>
@@ -130,19 +119,16 @@ Economic impact:
                     <SheetHeader className="border-b pb-4">
                       <div className="flex items-center justify-between">
                         <SheetTitle>AI Playground</SheetTitle>
-                        {aiImpact && (
-                          <div className="flex items-center gap-2">
+                        {aiImpact && <div className="flex items-center gap-2">
                             <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-sm font-medium">
                               AI Impact: {aiImpact}%
                             </span>
-                          </div>
-                        )}
+                          </div>}
                       </div>
                     </SheetHeader>
 
                     <div className="mt-6">
-                      {currentView === 'main' ? (
-                        <div className="space-y-6">
+                      {currentView === 'main' ? <div className="space-y-6">
                           <Tabs defaultValue="factbox" className="w-full">
                             <TabsList className="grid w-full grid-cols-2">
                               <TabsTrigger value="utils">Utils</TabsTrigger>
@@ -153,7 +139,10 @@ Economic impact:
                               <div className="space-y-4">
                                 <div>
                                   <Label className="text-sm font-medium">Type*</Label>
-                                  <Select value={formData.type} onValueChange={(value) => setFormData(prev => ({...prev, type: value}))}>
+                                  <Select value={formData.type} onValueChange={value => setFormData(prev => ({
+                                ...prev,
+                                type: value
+                              }))}>
                                     <SelectTrigger>
                                       <SelectValue />
                                     </SelectTrigger>
@@ -167,7 +156,10 @@ Economic impact:
 
                                 <div>
                                   <Label className="text-sm font-medium">Days Back*</Label>
-                                  <Select value={formData.daysBack} onValueChange={(value) => setFormData(prev => ({...prev, daysBack: value}))}>
+                                  <Select value={formData.daysBack} onValueChange={value => setFormData(prev => ({
+                                ...prev,
+                                daysBack: value
+                              }))}>
                                     <SelectTrigger>
                                       <SelectValue />
                                     </SelectTrigger>
@@ -181,7 +173,10 @@ Economic impact:
 
                                 <div>
                                   <Label className="text-sm font-medium">Length*</Label>
-                                  <Select value={formData.length} onValueChange={(value) => setFormData(prev => ({...prev, length: value}))}>
+                                  <Select value={formData.length} onValueChange={value => setFormData(prev => ({
+                                ...prev,
+                                length: value
+                              }))}>
                                     <SelectTrigger>
                                       <SelectValue />
                                     </SelectTrigger>
@@ -197,21 +192,17 @@ Economic impact:
                                   <h3 className="font-medium">Details</h3>
                                   <div>
                                     <Label className="text-sm">Title</Label>
-                                    <input 
-                                      type="text"
-                                      value={formData.title}
-                                      onChange={(e) => setFormData(prev => ({...prev, title: e.target.value}))}
-                                      className="w-full mt-1 px-3 py-2 border border-border rounded-md text-sm"
-                                    />
+                                    <input type="text" value={formData.title} onChange={e => setFormData(prev => ({
+                                  ...prev,
+                                  title: e.target.value
+                                }))} className="w-full mt-1 px-3 py-2 border border-border rounded-md text-sm" />
                                   </div>
                                   <div>
                                     <Label className="text-sm">Text</Label>
-                                    <input 
-                                      type="text"
-                                      value={formData.text}
-                                      onChange={(e) => setFormData(prev => ({...prev, text: e.target.value}))}
-                                      className="w-full mt-1 px-3 py-2 border border-border rounded-md text-sm"
-                                    />
+                                    <input type="text" value={formData.text} onChange={e => setFormData(prev => ({
+                                  ...prev,
+                                  text: e.target.value
+                                }))} className="w-full mt-1 px-3 py-2 border border-border rounded-md text-sm" />
                                   </div>
                                 </div>
 
@@ -225,30 +216,18 @@ Economic impact:
                                         <span className="text-blue-600 underline cursor-pointer">Substantial impact</span>.
                                       </p>
                                     </div>
-                                    <Switch 
-                                      checked={formData.autoDisclosure}
-                                      onCheckedChange={(checked) => setFormData(prev => ({...prev, autoDisclosure: checked}))}
-                                    />
+                                    <Switch checked={formData.autoDisclosure} onCheckedChange={checked => setFormData(prev => ({
+                                  ...prev,
+                                  autoDisclosure: checked
+                                }))} />
                                   </div>
 
                                   <div className="flex gap-2">
-                                    <Button 
-                                      onClick={generateSummary}
-                                      disabled={isGenerating}
-                                      className="flex-1 bg-gray-800 hover:bg-gray-900 text-white"
-                                    >
-                                      {isGenerating ? (
-                                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                                      ) : (
-                                        <Settings className="h-4 w-4 mr-2" />
-                                      )}
+                                    <Button onClick={generateSummary} disabled={isGenerating} className="flex-1 bg-gray-800 hover:bg-gray-900 text-white">
+                                      {isGenerating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Settings className="h-4 w-4 mr-2" />}
                                       Generate
                                     </Button>
-                                    <Button 
-                                      variant="outline" 
-                                      className="flex-1"
-                                      onClick={() => setCurrentView('disclosure')}
-                                    >
+                                    <Button variant="outline" className="flex-1" onClick={() => setCurrentView('disclosure')}>
                                       <FileText className="h-4 w-4 mr-2" />
                                       View Facts
                                     </Button>
@@ -267,15 +246,9 @@ Economic impact:
                           </Tabs>
 
                           {/* Generated Summary Display */}
-                          {formData.aiSummary && (
-                            <div className="mt-6 p-4 bg-muted rounded-lg">
+                          {formData.aiSummary && <div className="mt-6 p-4 bg-muted rounded-lg">
                               <div className="flex items-center gap-2 mb-3">
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => setCurrentView('disclosure')}
-                                  className="p-0 h-auto text-sm"
-                                >
+                                <Button variant="ghost" size="sm" onClick={() => setCurrentView('disclosure')} className="p-0 h-auto text-sm">
                                   <ChevronLeft className="h-4 w-4 mr-1" />
                                   Back
                                 </Button>
@@ -288,18 +261,10 @@ Economic impact:
                                   {formData.aiSummary.split('\n').slice(1).join('\n')}
                                 </div>
                               </div>
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="space-y-4">
+                            </div>}
+                        </div> : <div className="space-y-4">
                           <div className="flex items-center gap-2 mb-4">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setCurrentView('main')}
-                              className="p-0 h-auto"
-                            >
+                            <Button variant="ghost" size="sm" onClick={() => setCurrentView('main')} className="p-0 h-auto">
                               <ChevronLeft className="h-4 w-4 mr-1" />
                               Back
                             </Button>
@@ -316,10 +281,10 @@ Economic impact:
                                   <span className="text-blue-600 underline cursor-pointer">Substantial impact</span>.
                                 </p>
                               </div>
-                              <Switch 
-                                checked={formData.autoDisclosure}
-                                onCheckedChange={(checked) => setFormData(prev => ({...prev, autoDisclosure: checked}))}
-                              />
+                              <Switch checked={formData.autoDisclosure} onCheckedChange={checked => setFormData(prev => ({
+                            ...prev,
+                            autoDisclosure: checked
+                          }))} />
                             </div>
 
                             <div className="space-y-3">
@@ -337,10 +302,7 @@ Economic impact:
 
                             <div className="space-y-3">
                               <Label className="text-sm font-medium">Human Review Description</Label>
-                              <Textarea 
-                                className="min-h-20 text-sm"
-                                placeholder="All content in the fact box is based on Omni's articles and automatically summarized with the support of AI tools from OpenAI. Omni's editorial team has quality assured the content. Learn More A..."
-                              />
+                              <Textarea className="min-h-20 text-sm" placeholder="All content in the fact box is based on Omni's articles and automatically summarized with the support of AI tools from OpenAI. Omni's editorial team has quality assured the content. Learn More A..." />
                             </div>
 
                             <div className="space-y-3">
@@ -372,14 +334,11 @@ Economic impact:
                               Unsaved changes
                             </p>
                           </div>
-                        </div>
-                      )}
+                        </div>}
                     </div>
                   </SheetContent>
                 </Sheet>
-                <Button variant="ghost" size="sm">
-                  •••
-                </Button>
+                
               </div>
             </div>
 
@@ -401,11 +360,7 @@ Economic impact:
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-1">
                   <div className="space-y-3">
-                    <img 
-                      src="/placeholder.svg" 
-                      alt="Pictures from Greenhaven's official webpage" 
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
+                    <img src="/placeholder.svg" alt="Pictures from Greenhaven's official webpage" className="w-full h-48 object-cover rounded-lg" />
                     <div className="text-sm">
                       <p className="font-medium">Byline</p>
                       <p className="text-muted-foreground">Molly TT/TT Nyhetsbyrån</p>
@@ -433,6 +388,5 @@ Economic impact:
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
