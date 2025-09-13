@@ -111,31 +111,31 @@ export const SummaryView = ({
     const key = `${type}-${severity}`;
     switch (key) {
       case 'tone_shift-low':
-        return 'bg-tone-shift-low text-white';
+        return 'bg-tone-shift-low text-white border-tone-shift-low';
       case 'tone_shift-medium':
-        return 'bg-tone-shift-medium text-white';
+        return 'bg-tone-shift-medium text-white border-tone-shift-medium';
       case 'tone_shift-high':
-        return 'bg-tone-shift-high text-white';
+        return 'bg-tone-shift-high text-white border-tone-shift-high';
       case 'policy_violation-low':
-        return 'bg-policy-violation-low text-white';
+        return 'bg-policy-violation-low text-white border-policy-violation-low';
       case 'policy_violation-medium':
-        return 'bg-policy-violation-medium text-white';
+        return 'bg-policy-violation-medium text-white border-policy-violation-medium';
       case 'policy_violation-high':
-        return 'bg-policy-violation-high text-white';
+        return 'bg-policy-violation-high text-white border-policy-violation-high';
       case 'factual_deviation-low':
-        return 'bg-factual-deviation-low text-white';
+        return 'bg-factual-deviation-low text-white border-factual-deviation-low';
       case 'factual_deviation-medium':
-        return 'bg-factual-deviation-medium text-white';
+        return 'bg-factual-deviation-medium text-white border-factual-deviation-medium';
       case 'factual_deviation-high':
-        return 'bg-factual-deviation-high text-white';
+        return 'bg-factual-deviation-high text-white border-factual-deviation-high';
       case 'bias-low':
-        return 'bg-bias-issue-low text-white';
+        return 'bg-bias-issue-low text-white border-bias-issue-low';
       case 'bias-medium':
-        return 'bg-bias-issue-medium text-white';
+        return 'bg-bias-issue-medium text-white border-bias-issue-medium';
       case 'bias-high':
-        return 'bg-bias-issue-high text-white';
+        return 'bg-bias-issue-high text-white border-bias-issue-high';
       default:
-        return 'bg-gray-600 text-white';
+        return 'bg-gray-600 text-white border-gray-600';
     }
   };
   const handleContentChange = () => {
