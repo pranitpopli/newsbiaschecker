@@ -37,12 +37,74 @@ export const SummaryView = ({
   const editableRef = useRef<HTMLDivElement>(null);
   const getHighlightClass = (severity: 'low' | 'medium' | 'high', type: string, isHovered: boolean = false) => {
     const baseClass = 'border-2 rounded px-1 transition-all duration-300';
-    const opacity = isHovered ? '70' : '40';
-    const borderOpacity = isHovered ? '90' : '60';
     
-    // Use severity-based colors for each issue type
-    const colorKey = `${type.replace('_', '-')}-${severity}`;
-    return `bg-${colorKey}/${opacity} border-${colorKey}/${borderOpacity} ${baseClass}`;
+    // Use explicit class combinations to ensure Tailwind recognizes them
+    if (isHovered) {
+      switch (type) {
+        case 'tone_shift':
+          switch (severity) {
+            case 'low': return `bg-tone-shift-low/70 border-tone-shift-low/90 ${baseClass}`;
+            case 'medium': return `bg-tone-shift-medium/70 border-tone-shift-medium/90 ${baseClass}`;
+            case 'high': return `bg-tone-shift-high/70 border-tone-shift-high/90 ${baseClass}`;
+          }
+          break;
+        case 'policy_violation':
+          switch (severity) {
+            case 'low': return `bg-policy-violation-low/70 border-policy-violation-low/90 ${baseClass}`;
+            case 'medium': return `bg-policy-violation-medium/70 border-policy-violation-medium/90 ${baseClass}`;
+            case 'high': return `bg-policy-violation-high/70 border-policy-violation-high/90 ${baseClass}`;
+          }
+          break;
+        case 'factual_deviation':
+          switch (severity) {
+            case 'low': return `bg-factual-deviation-low/70 border-factual-deviation-low/90 ${baseClass}`;
+            case 'medium': return `bg-factual-deviation-medium/70 border-factual-deviation-medium/90 ${baseClass}`;
+            case 'high': return `bg-factual-deviation-high/70 border-factual-deviation-high/90 ${baseClass}`;
+          }
+          break;
+        case 'bias':
+          switch (severity) {
+            case 'low': return `bg-bias-issue-low/70 border-bias-issue-low/90 ${baseClass}`;
+            case 'medium': return `bg-bias-issue-medium/70 border-bias-issue-medium/90 ${baseClass}`;
+            case 'high': return `bg-bias-issue-high/70 border-bias-issue-high/90 ${baseClass}`;
+          }
+          break;
+      }
+    } else {
+      switch (type) {
+        case 'tone_shift':
+          switch (severity) {
+            case 'low': return `bg-tone-shift-low/40 border-tone-shift-low/60 ${baseClass}`;
+            case 'medium': return `bg-tone-shift-medium/40 border-tone-shift-medium/60 ${baseClass}`;
+            case 'high': return `bg-tone-shift-high/40 border-tone-shift-high/60 ${baseClass}`;
+          }
+          break;
+        case 'policy_violation':
+          switch (severity) {
+            case 'low': return `bg-policy-violation-low/40 border-policy-violation-low/60 ${baseClass}`;
+            case 'medium': return `bg-policy-violation-medium/40 border-policy-violation-medium/60 ${baseClass}`;
+            case 'high': return `bg-policy-violation-high/40 border-policy-violation-high/60 ${baseClass}`;
+          }
+          break;
+        case 'factual_deviation':
+          switch (severity) {
+            case 'low': return `bg-factual-deviation-low/40 border-factual-deviation-low/60 ${baseClass}`;
+            case 'medium': return `bg-factual-deviation-medium/40 border-factual-deviation-medium/60 ${baseClass}`;
+            case 'high': return `bg-factual-deviation-high/40 border-factual-deviation-high/60 ${baseClass}`;
+          }
+          break;
+        case 'bias':
+          switch (severity) {
+            case 'low': return `bg-bias-issue-low/40 border-bias-issue-low/60 ${baseClass}`;
+            case 'medium': return `bg-bias-issue-medium/40 border-bias-issue-medium/60 ${baseClass}`;
+            case 'high': return `bg-bias-issue-high/40 border-bias-issue-high/60 ${baseClass}`;
+          }
+          break;
+      }
+    }
+    
+    // Fallback
+    return `bg-muted/40 border-muted/60 ${baseClass}`;
   };
 
   const getIssueTypeColor = (type: string, severity: 'low' | 'medium' | 'high') => {
