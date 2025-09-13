@@ -108,8 +108,29 @@ export const SummaryView = ({
   };
 
   const getIssueTypeColor = (type: string, severity: 'low' | 'medium' | 'high') => {
-    const colorKey = `${type.replace('_', '-')}-${severity}`;
-    return `bg-${colorKey} text-white`;
+    const key = `${type}-${severity}`;
+    switch (key) {
+      case 'tone_shift-low':
+      case 'tone_shift-medium':
+      case 'tone_shift-high':
+        return 'bg-blue-600 text-white';
+      case 'policy_violation-low':
+      case 'policy_violation-medium':
+        return 'bg-yellow-600 text-white';
+      case 'policy_violation-high':
+        return 'bg-orange-600 text-white';
+      case 'factual_deviation-low':
+      case 'factual_deviation-medium':
+        return 'bg-orange-600 text-white';
+      case 'factual_deviation-high':
+      case 'bias-high':
+        return 'bg-red-600 text-white';
+      case 'bias-low':
+      case 'bias-medium':
+        return 'bg-purple-600 text-white';
+      default:
+        return 'bg-gray-600 text-white';
+    }
   };
   const handleContentChange = () => {
     if (editable && editableRef.current && onSummaryChange) {

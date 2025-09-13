@@ -86,7 +86,7 @@ export const EditorialCompliance = () => {
   };
 
   const getStatusBadge = (status: ComplianceStatus) => {
-    const baseClasses = "text-xs font-medium";
+    const baseClasses = "text-xs font-medium min-w-[100px] h-6 flex items-center justify-center";
     switch (status) {
       case 'complete':
         return <Badge className={`${baseClasses} bg-success/10 text-success`}>Complete</Badge>;
