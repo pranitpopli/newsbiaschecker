@@ -55,6 +55,12 @@ export const AIPlayground = ({
 }: AIPlaygroundProps) => {
   
   const aiImpactPercentage = aiConfidence?.percentage || 68;
+  
+  const getAIImpactLevel = (percentage: number) => {
+    if (percentage >= 70) return 'high';
+    if (percentage >= 40) return 'medium';
+    return 'low';
+  };
 
   return (
     <div className="w-[400px] border-l border-border bg-background flex flex-col h-screen">
@@ -63,8 +69,8 @@ export const AIPlayground = ({
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">AI Playground</h2>
           <div className="flex items-center gap-3">
-            <Badge variant="secondary" className="bg-orange-100 text-orange-800">
-              AI Impact: {aiImpactPercentage}%
+            <Badge variant="secondary" className="bg-orange-100 text-orange-800 whitespace-nowrap">
+              AI Impact: {getAIImpactLevel(aiImpactPercentage)}
             </Badge>
             <Button variant="ghost" size="sm" className="text-primary">
               Learn more <ExternalLink className="h-3 w-3 ml-1" />
