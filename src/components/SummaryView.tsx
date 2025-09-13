@@ -37,8 +37,8 @@ export const SummaryView = ({
   const editableRef = useRef<HTMLDivElement>(null);
   const getHighlightClass = (severity: 'low' | 'medium' | 'high', type: string, isHovered: boolean = false) => {
     const baseClass = 'border-2 rounded px-1 transition-all duration-300';
-    const opacity = isHovered ? '60' : '15';
-    const borderOpacity = isHovered ? '80' : '30';
+    const opacity = isHovered ? '70' : '40';
+    const borderOpacity = isHovered ? '90' : '60';
     
     // Use severity-based colors for each issue type
     const colorKey = `${type.replace('_', '-')}-${severity}`;
