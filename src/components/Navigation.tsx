@@ -3,12 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Brain, FileText, Settings, Users, BarChart3, Search, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface NavigationProps {
-  onAIClick: () => void;
-  isAIOpen: boolean;
-}
-
-export const Navigation = ({ onAIClick, isAIOpen }: NavigationProps) => {
+export const Navigation = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const navItems = [
@@ -64,19 +59,6 @@ export const Navigation = ({ onAIClick, isAIOpen }: NavigationProps) => {
         >
           <Bell className="h-4 w-4" />
           {!isCollapsed && <span>Notifications</span>}
-        </Button>
-        
-        <Button
-          onClick={onAIClick}
-          className={cn(
-            "w-full justify-start gap-3",
-            isAIOpen 
-              ? "bg-primary text-primary-foreground hover:bg-primary/90" 
-              : "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent/80"
-          )}
-        >
-          <Brain className="h-4 w-4" />
-          {!isCollapsed && <span>AI</span>}
         </Button>
       </div>
     </nav>

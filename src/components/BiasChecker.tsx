@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ChevronDown, CheckCircle, Calendar, Clock } from "lucide-react";
+import { ChevronDown, CheckCircle, Calendar, Clock, Brain } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { Navigation } from "./Navigation";
 import { AIPlayground } from "./AIPlayground";
@@ -67,6 +68,8 @@ The project is projected to create over 500 new jobs during its construction pha
   const [complianceIssues, setComplianceIssues] = useState<ComplianceIssue[]>([]);
   const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(false);
   const { toast } = useToast();
+
+  const onAIClick = () => setIsPlaygroundOpen(!isPlaygroundOpen);
 
   const generateSummary = async () => {
     setIsGenerating(true);
@@ -143,10 +146,7 @@ Economic impact:
     <TooltipProvider>
       <div className="min-h-screen bg-background flex">
         {/* Navigation Sidebar */}
-        <Navigation 
-          onAIClick={() => setIsPlaygroundOpen(!isPlaygroundOpen)}
-          isAIOpen={isPlaygroundOpen}
-        />
+        <Navigation />
 
         {/* Main Content Area */}
         <div className="flex-1 flex">
@@ -161,13 +161,15 @@ Economic impact:
                   
                   {/* Metadata Section */}
                   <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4" />
-                      <span>Published yesterday</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4" />
-                      <span>Updated yesterday</span>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        <span>Published yesterday</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4" />
+                        <span>Updated yesterday</span>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <span>Author: Sarah Johnson</span>
@@ -175,20 +177,35 @@ Economic impact:
                   </div>
                 </div>
                 
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                      Publish
-                      <ChevronDown className="ml-1 h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="bg-popover border border-border">
-                    <DropdownMenuItem onClick={handlePublish} className="cursor-pointer hover:bg-accent">
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      Publish {formData.includeDisclosure ? 'with Disclosure' : ''}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex items-center gap-3">
+                  <Button
+                    onClick={onAIClick}
+                    className={cn(
+                      "gap-2",
+                      isPlaygroundOpen 
+                        ? "bg-primary text-primary-foreground hover:bg-primary/90" 
+                        : "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent/80"
+                    )}
+                  >
+                    <Brain className="h-4 w-4" />
+                    AI
+                  </Button>
+                  
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                        Publish
+                        <ChevronDown className="ml-1 h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="bg-popover border border-border">
+                      <DropdownMenuItem onClick={handlePublish} className="cursor-pointer hover:bg-accent">
+                        <CheckCircle className="h-4 w-4 mr-2" />
+                        Publish {formData.includeDisclosure ? 'with Disclosure' : ''}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </div>
 
               {/* Article Content */}

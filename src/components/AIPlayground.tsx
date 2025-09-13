@@ -68,9 +68,9 @@ export const AIPlayground = ({
   if (!isOpen) return null;
 
   return (
-    <div className="h-screen bg-background border-l border-border flex flex-col w-[500px]">
+    <div className="fixed right-0 top-0 h-screen bg-background border-l border-border flex flex-col w-[500px] z-50">
       {/* Sticky Header */}
-      <div className="bg-background border-b border-border p-4 flex items-center justify-between sticky top-0 z-10">
+      <div className="bg-background border-b border-border p-6 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-3">
           {currentView !== 'main' && (
             <Button
@@ -98,7 +98,7 @@ export const AIPlayground = ({
 
       {/* Scrollable Content */}
       <ScrollArea className="flex-1">
-        <div className="p-4">
+        <div className="p-6">
           {currentView === 'main' ? (
             <Tabs defaultValue="factbox" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
