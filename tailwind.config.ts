@@ -65,6 +65,10 @@ export default {
           medium: "hsl(var(--bias-medium))",
           high: "hsl(var(--bias-high))",
         },
+        "tone-shift": "hsl(var(--tone-shift))",
+        "policy-violation": "hsl(var(--policy-violation))",
+        "factual-deviation": "hsl(var(--factual-deviation))",
+        "bias-issue": "hsl(var(--bias-issue))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

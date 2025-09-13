@@ -33,15 +33,48 @@ export const SummaryView = ({
   editable = false
 }: SummaryViewProps) => {
   const [rejectedIssues, setRejectedIssues] = useState<Set<string>>(new Set());
+  const [hoveredIssue, setHoveredIssue] = useState<string | null>(null);
   const editableRef = useRef<HTMLDivElement>(null);
-  const getHighlightClass = (severity: 'low' | 'medium' | 'high') => {
-    switch (severity) {
-      case 'low':
-        return 'bg-bias-low/20 border-bias-low/40 border-2 rounded px-1';
-      case 'medium':
-        return 'bg-bias-medium/20 border-bias-medium/40 border-2 rounded px-1';
-      case 'high':
-        return 'bg-bias-high/20 border-bias-high/40 border-2 rounded px-1';
+  const getHighlightClass = (severity: 'low' | 'medium' | 'high', type: string, isHovered: boolean = false) => {
+    const baseClass = 'border-2 rounded px-1 transition-all duration-200';
+    const opacity = isHovered ? '40' : '20';
+    const borderOpacity = isHovered ? '60' : '40';
+    
+    // Use issue type colors instead of severity
+    switch (type) {
+      case 'tone_shift':
+        return `bg-tone-shift/${opacity} border-tone-shift/${borderOpacity} ${baseClass}`;
+      case 'policy_violation':
+        return `bg-policy-violation/${opacity} border-policy-violation/${borderOpacity} ${baseClass}`;
+      case 'factual_deviation':
+        return `bg-factual-deviation/${opacity} border-factual-deviation/${borderOpacity} ${baseClass}`;
+      case 'bias':
+        return `bg-bias-issue/${opacity} border-bias-issue/${borderOpacity} ${baseClass}`;
+      default:
+        // Fallback to severity colors
+        switch (severity) {
+          case 'low':
+            return `bg-bias-low/${opacity} border-bias-low/${borderOpacity} ${baseClass}`;
+          case 'medium':
+            return `bg-bias-medium/${opacity} border-bias-medium/${borderOpacity} ${baseClass}`;
+          case 'high':
+            return `bg-bias-high/${opacity} border-bias-high/${borderOpacity} ${baseClass}`;
+        }
+    }
+  };
+
+  const getIssueTypeColor = (type: string) => {
+    switch (type) {
+      case 'tone_shift':
+        return 'bg-tone-shift text-white';
+      case 'policy_violation':
+        return 'bg-policy-violation text-white';
+      case 'factual_deviation':
+        return 'bg-factual-deviation text-white';
+      case 'bias':
+        return 'bg-bias-issue text-white';
+      default:
+        return 'bg-muted text-muted-foreground';
     }
   };
   const handleContentChange = () => {
@@ -73,6 +106,7 @@ export const SummaryView = ({
     for (const issue of sortedIssues) {
       const issueKey = `${issue.startIndex}-${issue.endIndex}`;
       const isRejected = rejectedIssues.has(issueKey);
+      const isHovered = hoveredIssue === issueKey;
 
       // Add text before the issue
       if (issue.startIndex > lastIndex) {
@@ -83,7 +117,7 @@ export const SummaryView = ({
       if (!isRejected) {
         result.push(<Tooltip key={issueKey}>
             <TooltipTrigger asChild>
-              <span className={`${getHighlightClass(issue.severity)} cursor-help relative`}>
+              <span className={`${getHighlightClass(issue.severity, issue.type, isHovered)} cursor-help relative`}>
                 {issue.text}
               </span>
             </TooltipTrigger>
@@ -139,5 +173,51 @@ export const SummaryView = ({
         </CardContent>
       </Card>
 
+      {/* Compliance Issues Summary */}
+      {(() => {
+        const activeIssues = complianceIssues.filter(issue => !rejectedIssues.has(`${issue.startIndex}-${issue.endIndex}`));
+        return (
+          <>
+            {activeIssues.length > 0 && (
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <AlertTriangle className="h-4 w-4 text-warning" />
+                    <span className="text-sm font-medium">
+                      {activeIssues.length} compliance issue{activeIssues.length !== 1 ? 's' : ''} found
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {activeIssues.map((issue, index) => {
+                      const issueKey = `${issue.startIndex}-${issue.endIndex}`;
+                      return (
+                        <Badge 
+                          key={index} 
+                          className={`text-xs cursor-pointer transition-all duration-200 hover:scale-105 ${getIssueTypeColor(issue.type)}`}
+                          onMouseEnter={() => setHoveredIssue(issueKey)}
+                          onMouseLeave={() => setHoveredIssue(null)}
+                        >
+                          {issue.type.replace('_', ' ')} ({issue.severity})
+                        </Badge>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {activeIssues.length === 0 && complianceIssues.length > 0 && (
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 text-success">
+                    <CheckCircle className="h-4 w-4" />
+                    <span className="text-sm font-medium">All compliance issues resolved</span>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </>
+        );
+      })()}
     </div>;
 };
