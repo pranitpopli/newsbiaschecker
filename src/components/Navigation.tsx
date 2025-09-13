@@ -14,11 +14,11 @@ export const Navigation = ({
   return <header className="border-b border-border bg-background sticky top-0 z-10">
       <div className="flex items-center justify-between px-6 py-3">
         <div className="flex items-center gap-4">
-          <h1 className="text-xl font-semibold text-foreground">"Greenhaven" Urban Renewal Project for Downtown Cor</h1>
+          <h1 className="text-xl font-semibold text-foreground">"Greenhaven" Urban Renewal Project for Downtown Co</h1>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>Updated yesterday</span>
-            <span>•</span>
-            <span>Published yesterday</span>
+            <span className="text-xs">Updated yesterday</span>
+            <span className="mx-0">•</span>
+            <span className="text-emerald-600 font-medium">Published yesterday at 1700</span>
           </div>
         </div>
         
