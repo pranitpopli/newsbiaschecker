@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, Settings, X, ExternalLink } from "lucide-react";
+import { ArrowLeft, Settings, X, ExternalLink, AlertTriangle, CheckCircle } from "lucide-react";
 import { SummaryView } from "./SummaryView";
 import { EditorialCompliance } from "./EditorialCompliance";
 
@@ -191,6 +191,45 @@ export const AIPlayground = ({
                     onSummaryChange={(newSummary) => setFormData(prev => ({ ...prev, aiSummary: newSummary }))}
                     editable={true}
                   />
+                  
+                  {/* Compliance Issues Summary */}
+                  {(() => {
+                    const activeIssues = complianceIssues.filter(issue => true); // You may want to track rejected issues here
+                    return (
+                      <>
+                        {activeIssues.length > 0 && (
+                          <Card>
+                            <CardContent className="p-4">
+                              <div className="flex items-center gap-2 mb-3">
+                                <AlertTriangle className="h-4 w-4 text-warning" />
+                                <span className="text-sm font-medium">
+                                  {activeIssues.length} compliance issue{activeIssues.length !== 1 ? 's' : ''} found
+                                </span>
+                              </div>
+                              <div className="flex flex-wrap gap-2">
+                                {activeIssues.map((issue, index) => (
+                                  <Badge key={index} variant="outline" className="text-xs">
+                                    {issue.type.replace('_', ' ')} ({issue.severity})
+                                  </Badge>
+                                ))}
+                              </div>
+                            </CardContent>
+                          </Card>
+                        )}
+
+                        {activeIssues.length === 0 && complianceIssues.length > 0 && (
+                          <Card>
+                            <CardContent className="p-4">
+                              <div className="flex items-center gap-2 text-success">
+                                <CheckCircle className="h-4 w-4" />
+                                <span className="text-sm font-medium">All compliance issues resolved</span>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
               )}
 
