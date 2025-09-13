@@ -111,23 +111,29 @@ export const SummaryView = ({
     const key = `${type}-${severity}`;
     switch (key) {
       case 'tone_shift-low':
+        return 'bg-tone-shift-low text-white';
       case 'tone_shift-medium':
+        return 'bg-tone-shift-medium text-white';
       case 'tone_shift-high':
-        return 'bg-blue-600 text-white';
+        return 'bg-tone-shift-high text-white';
       case 'policy_violation-low':
+        return 'bg-policy-violation-low text-white';
       case 'policy_violation-medium':
-        return 'bg-yellow-600 text-white';
+        return 'bg-policy-violation-medium text-white';
       case 'policy_violation-high':
-        return 'bg-orange-600 text-white';
+        return 'bg-policy-violation-high text-white';
       case 'factual_deviation-low':
+        return 'bg-factual-deviation-low text-white';
       case 'factual_deviation-medium':
-        return 'bg-orange-600 text-white';
+        return 'bg-factual-deviation-medium text-white';
       case 'factual_deviation-high':
-      case 'bias-high':
-        return 'bg-red-600 text-white';
+        return 'bg-factual-deviation-high text-white';
       case 'bias-low':
+        return 'bg-bias-issue-low text-white';
       case 'bias-medium':
-        return 'bg-purple-600 text-white';
+        return 'bg-bias-issue-medium text-white';
+      case 'bias-high':
+        return 'bg-bias-issue-high text-white';
       default:
         return 'bg-gray-600 text-white';
     }
