@@ -66,15 +66,17 @@ export const AIPlayground = ({
     <div className="w-[400px] border-l border-border bg-background flex flex-col h-screen">
       {/* Header */}
       <div className="border-b border-border px-6 py-4 bg-background">
-        <div className="flex items-center justify-between">
+        <div className="flex items-start justify-between">
           <h2 className="text-lg font-semibold">AI Playground</h2>
-          <div className="flex items-center gap-3">
-            <Badge variant="secondary" className="bg-orange-100 text-orange-800 whitespace-nowrap">
-              AI Impact: {getAIImpactLevel(aiImpactPercentage)}
-            </Badge>
-            <Button variant="ghost" size="sm" className="text-primary">
-              Learn more <ExternalLink className="h-3 w-3 ml-1" />
-            </Button>
+          <div className="flex items-start gap-3">
+            <div className="flex flex-col items-end gap-1">
+              <Badge variant="secondary" className="bg-orange-100 text-orange-800 whitespace-nowrap">
+                AI Impact: {getAIImpactLevel(aiImpactPercentage)}
+              </Badge>
+              <Button variant="ghost" size="sm" className="text-primary text-xs h-auto p-1">
+                Learn more <ExternalLink className="h-2.5 w-2.5 ml-1" />
+              </Button>
+            </div>
             <Button variant="ghost" size="icon" onClick={onClose}>
               <X className="h-4 w-4" />
             </Button>
