@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { AlertTriangle, CheckCircle, X, Check, Edit3 } from "lucide-react";
 interface ComplianceIssue {
   type: 'policy_violation' | 'factual_deviation' | 'bias' | 'tone_shift';
@@ -16,18 +17,23 @@ interface ComplianceIssue {
 interface SummaryViewProps {
   summary: string;
   complianceIssues: ComplianceIssue[];
-  onAcceptSuggestion: (issue: ComplianceIssue) => void;
-  onRejectSuggestion: (issue: ComplianceIssue) => void;
-  onModifySuggestion: (issue: ComplianceIssue) => void;
+  onAcceptSuggestion?: (issue: ComplianceIssue) => void;
+  onRejectSuggestion?: (issue: ComplianceIssue) => void;
+  onModifySuggestion?: (issue: ComplianceIssue) => void;
+  onSummaryChange?: (newSummary: string) => void;
+  editable?: boolean;
 }
 export const SummaryView = ({
   summary,
   complianceIssues,
   onAcceptSuggestion,
   onRejectSuggestion,
-  onModifySuggestion
+  onModifySuggestion,
+  onSummaryChange,
+  editable = false
 }: SummaryViewProps) => {
   const [rejectedIssues, setRejectedIssues] = useState<Set<string>>(new Set());
+  const editableRef = useRef<HTMLDivElement>(null);
   const getHighlightClass = (severity: 'low' | 'medium' | 'high') => {
     switch (severity) {
       case 'low':
@@ -38,16 +44,24 @@ export const SummaryView = ({
         return 'bg-bias-high/20 border-bias-high/40 border-2 rounded px-1';
     }
   };
+  const handleContentChange = () => {
+    if (editable && editableRef.current && onSummaryChange) {
+      const newContent = editableRef.current.textContent || '';
+      onSummaryChange(newContent);
+    }
+  };
+
   const handleAccept = (issue: ComplianceIssue) => {
-    onAcceptSuggestion(issue);
+    onAcceptSuggestion?.(issue);
     setRejectedIssues(prev => {
       const newSet = new Set(prev);
       newSet.delete(`${issue.startIndex}-${issue.endIndex}`);
       return newSet;
     });
   };
+
   const handleReject = (issue: ComplianceIssue) => {
-    onRejectSuggestion(issue);
+    onRejectSuggestion?.(issue);
     setRejectedIssues(prev => new Set(prev).add(`${issue.startIndex}-${issue.endIndex}`));
   };
   const renderHighlightedText = () => {
@@ -108,12 +122,20 @@ export const SummaryView = ({
   const activeIssues = complianceIssues.filter(issue => !rejectedIssues.has(`${issue.startIndex}-${issue.endIndex}`));
   return <div className="space-y-4">
       <Card>
-        <CardContent className="p-6">
-          <div className="prose prose-sm max-w-none">
-            <div className="text-base leading-relaxed whitespace-pre-line">
-              {renderHighlightedText()}
+        <CardContent className="p-0">
+          <ScrollArea className="h-48">
+            <div 
+              ref={editableRef}
+              contentEditable={editable}
+              onInput={handleContentChange}
+              className={`p-6 prose prose-sm max-w-none ${editable ? 'outline-none focus:bg-muted/20' : ''}`}
+              suppressContentEditableWarning={true}
+            >
+              <div className="text-base leading-relaxed whitespace-pre-line">
+                {editable ? summary : renderHighlightedText()}
+              </div>
             </div>
-          </div>
+          </ScrollArea>
         </CardContent>
       </Card>
 

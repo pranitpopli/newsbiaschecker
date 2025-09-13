@@ -182,29 +182,15 @@ export const AIPlayground = ({
               {formData.aiSummary && (
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold">Generated Summary</h3>
-                  <div className="border border-border rounded-lg">
-                    <ScrollArea className="h-48">
-                      <Textarea
-                        value={formData.aiSummary}
-                        onChange={(e) => setFormData(prev => ({ ...prev, aiSummary: e.target.value }))}
-                        className="border-0 resize-none p-4 text-sm leading-relaxed"
-                        placeholder="AI-generated summary will appear here..."
-                      />
-                    </ScrollArea>
-                  </div>
-                  
-                  {/* Issues and Suggestions */}
-                  {complianceIssues.length > 0 && (
-                    <div className="mt-4">
-                      <SummaryView
-                        summary={formData.aiSummary}
-                        complianceIssues={complianceIssues}
-                        onAcceptSuggestion={onAcceptSuggestion}
-                        onRejectSuggestion={onRejectSuggestion}
-                        onModifySuggestion={onModifySuggestion}
-                      />
-                    </div>
-                  )}
+                  <SummaryView
+                    summary={formData.aiSummary}
+                    complianceIssues={complianceIssues}
+                    onAcceptSuggestion={onAcceptSuggestion}
+                    onRejectSuggestion={onRejectSuggestion}
+                    onModifySuggestion={onModifySuggestion}
+                    onSummaryChange={(newSummary) => setFormData(prev => ({ ...prev, aiSummary: newSummary }))}
+                    editable={true}
+                  />
                 </div>
               )}
 
