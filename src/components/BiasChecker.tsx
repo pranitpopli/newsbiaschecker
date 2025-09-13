@@ -170,7 +170,15 @@ Economic impact:
                 <CardHeader>
                   <CardTitle className="text-lg">Original Article</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="space-y-4">
+                  {/* Image Placeholder */}
+                  <div className="w-full h-48 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center">
+                    <div className="text-center text-muted-foreground">
+                      <div className="text-sm font-medium mb-1">Article Image</div>
+                      <div className="text-xs">Upload or drag image here</div>
+                    </div>
+                  </div>
+                  
                   <Textarea
                     value={formData.originalArticle}
                     onChange={(e) => setFormData(prev => ({ ...prev, originalArticle: e.target.value }))}
@@ -179,25 +187,6 @@ Economic impact:
                   />
                 </CardContent>
               </Card>
-
-              {/* Summary View */}
-              {formData.aiSummary && (
-                <div className="mb-6">
-                  <h2 className="text-lg font-semibold mb-4">Generated Summary</h2>
-                  <SummaryView
-                    summary={formData.aiSummary}
-                    complianceIssues={complianceIssues}
-                    onAcceptSuggestion={handleAcceptSuggestion}
-                    onRejectSuggestion={handleRejectSuggestion}
-                    onModifySuggestion={handleModifySuggestion}
-                  />
-                </div>
-              )}
-
-              {/* Editorial Compliance - Bottom Panel */}
-              <div className="mt-6">
-                <EditorialCompliance />
-              </div>
             </div>
           </div>
 
@@ -212,6 +201,10 @@ Economic impact:
               onGenerate={generateSummary}
               isGenerating={isGenerating}
               onClose={() => setIsPlaygroundOpen(false)}
+              complianceIssues={complianceIssues}
+              onAcceptSuggestion={handleAcceptSuggestion}
+              onRejectSuggestion={handleRejectSuggestion}
+              onModifySuggestion={handleModifySuggestion}
             />
           )}
         </div>
