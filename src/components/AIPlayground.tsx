@@ -195,9 +195,11 @@ export const AIPlayground = ({
               )}
 
               {/* Editorial Compliance */}
-              <div className="space-y-4">
-                <EditorialCompliance />
-              </div>
+              {formData.aiSummary && (
+                <div className="space-y-4">
+                  <EditorialCompliance />
+                </div>
+              )}
 
               {/* Disclosure Builder */}
               <div className="space-y-4">

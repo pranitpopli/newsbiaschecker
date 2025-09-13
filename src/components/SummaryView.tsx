@@ -131,9 +131,9 @@ export const SummaryView = ({
               className={`p-6 prose prose-sm max-w-none ${editable ? 'outline-none focus:bg-muted/20' : ''}`}
               suppressContentEditableWarning={true}
             >
-              <div className="text-base leading-relaxed whitespace-pre-line">
-                {editable ? summary : renderHighlightedText()}
-              </div>
+            <div className="text-base leading-relaxed whitespace-pre-line">
+              {complianceIssues.length > 0 ? renderHighlightedText() : summary}
+            </div>
             </div>
           </ScrollArea>
         </CardContent>
