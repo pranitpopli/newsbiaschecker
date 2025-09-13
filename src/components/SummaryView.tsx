@@ -234,12 +234,12 @@ export const SummaryView = ({
                     {activeIssues.map((issue, index) => {
                       const issueKey = `${issue.startIndex}-${issue.endIndex}`;
                       return (
-                        <Badge 
-                          key={index} 
-                          className={`text-xs cursor-pointer transition-all duration-300 hover:scale-105 ${getIssueTypeColor(issue.type, issue.severity)}`}
-                          onMouseEnter={() => setHoveredIssue(issueKey)}
-                          onMouseLeave={() => setHoveredIssue(null)}
-                        >
+                         <Badge 
+                           key={index} 
+                           className={`text-xs cursor-pointer transition-all duration-300 hover:scale-105 hover:opacity-80 hover:bg-inherit ${getIssueTypeColor(issue.type, issue.severity)}`}
+                           onMouseEnter={() => setHoveredIssue(issueKey)}
+                           onMouseLeave={() => setHoveredIssue(null)}
+                         >
                           {issue.type.replace('_', ' ')} ({issue.severity})
                         </Badge>
                       );
