@@ -57,17 +57,17 @@ The project is projected to create over 500 new jobs during its construction pha
     aiModelUsed: "GPT-4",
     humanReviewDescription: "All content in the fact box is based on Omni's articles and automatically summarized with the support of AI tools from OpenAI. Omni's editorial team has quality assured the content."
   });
-  
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiConfidence, setAiConfidence] = useState<AIConfidence | null>(null);
   const [complianceIssues, setComplianceIssues] = useState<ComplianceIssue[]>([]);
   const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<'plan' | 'generate' | 'review' | 'revise'>('plan');
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const generateSummary = async () => {
     setIsGenerating(true);
     setCurrentStep('generate');
-    
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
       const generatedSummary = `City Council launches "Greenhaven" urban renewal plan to revitalize downtown over the next 10 years.
@@ -83,15 +83,16 @@ Economic impact:
 • Project anticipated to attract significant investment.
 • Potential displacement of existing local businesses.
 • Traffic disruptions expected during extended construction phase.`;
-      
-      setFormData(prev => ({ ...prev, aiSummary: generatedSummary }));
+      setFormData(prev => ({
+        ...prev,
+        aiSummary: generatedSummary
+      }));
       setAiConfidence({
         level: 'medium',
         percentage: 68,
         status: 'review',
         color: 'bg-orange-100 text-orange-800'
       });
-      
       setComplianceIssues([{
         type: 'bias',
         severity: 'medium',
@@ -109,7 +110,6 @@ Economic impact:
         startIndex: 335,
         endIndex: 361
       }]);
-      
       setCurrentStep('review');
       toast({
         title: "Summary Generated",
@@ -131,7 +131,6 @@ Economic impact:
       description: "Your changes have been saved successfully"
     });
   };
-
   const handleAcceptSuggestion = (issue: ComplianceIssue) => {
     // Apply the suggestion to the draft
     setCurrentStep('revise');
@@ -140,26 +139,17 @@ Economic impact:
       description: "The content has been updated based on the suggestion"
     });
   };
-
   const handleRejectSuggestion = (issue: ComplianceIssue) => {
     // Remove the issue from the list
-    setComplianceIssues(prev => prev.filter(i => 
-      !(i.startIndex === issue.startIndex && i.endIndex === issue.endIndex)
-    ));
+    setComplianceIssues(prev => prev.filter(i => !(i.startIndex === issue.startIndex && i.endIndex === issue.endIndex)));
   };
-
   const handleModifySuggestion = (issue: ComplianceIssue) => {
     // Open modification dialog or inline editor
     console.log('Modifying suggestion:', issue);
   };
-  return (
-    <TooltipProvider>
+  return <TooltipProvider>
       <div className="min-h-screen bg-background flex flex-col">
-        <Navigation 
-          onAIToggle={() => setIsPlaygroundOpen(!isPlaygroundOpen)}
-          onSaveDraft={handleSaveDraft}
-          isAIOpen={isPlaygroundOpen}
-        />
+        <Navigation onAIToggle={() => setIsPlaygroundOpen(!isPlaygroundOpen)} onSaveDraft={handleSaveDraft} isAIOpen={isPlaygroundOpen} />
         
         <div className="flex flex-1">
           {/* Main Content */}
@@ -172,43 +162,25 @@ Economic impact:
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {/* Image Placeholder */}
-                  <div className="w-full h-48 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center">
+                  <div className="w-full h-48 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center mx-0 px-px">
                     <div className="text-center text-muted-foreground">
                       <div className="text-sm font-medium mb-1">Article Image</div>
                       <div className="text-xs">Upload or drag image here</div>
                     </div>
                   </div>
                   
-                  <Textarea
-                    value={formData.originalArticle}
-                    onChange={(e) => setFormData(prev => ({ ...prev, originalArticle: e.target.value }))}
-                    className="min-h-[300px] resize-none"
-                    placeholder="Enter your article content..."
-                  />
+                  <Textarea value={formData.originalArticle} onChange={e => setFormData(prev => ({
+                  ...prev,
+                  originalArticle: e.target.value
+                }))} className="min-h-[300px] resize-none" placeholder="Enter your article content..." />
                 </CardContent>
               </Card>
             </div>
           </div>
 
           {/* AI Playground - Right Panel */}
-          {isPlaygroundOpen && (
-            <AIPlayground
-              formData={formData}
-              setFormData={setFormData}
-              aiConfidence={aiConfidence}
-              currentStep={currentStep}
-              setCurrentStep={setCurrentStep}
-              onGenerate={generateSummary}
-              isGenerating={isGenerating}
-              onClose={() => setIsPlaygroundOpen(false)}
-              complianceIssues={complianceIssues}
-              onAcceptSuggestion={handleAcceptSuggestion}
-              onRejectSuggestion={handleRejectSuggestion}
-              onModifySuggestion={handleModifySuggestion}
-            />
-          )}
+          {isPlaygroundOpen && <AIPlayground formData={formData} setFormData={setFormData} aiConfidence={aiConfidence} currentStep={currentStep} setCurrentStep={setCurrentStep} onGenerate={generateSummary} isGenerating={isGenerating} onClose={() => setIsPlaygroundOpen(false)} complianceIssues={complianceIssues} onAcceptSuggestion={handleAcceptSuggestion} onRejectSuggestion={handleRejectSuggestion} onModifySuggestion={handleModifySuggestion} />}
         </div>
       </div>
-    </TooltipProvider>
-  );
+    </TooltipProvider>;
 };
