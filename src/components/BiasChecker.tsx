@@ -14,7 +14,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2, FileText, Brain, ChevronLeft, X, Settings, ChevronDown, ArrowLeft, Sparkles, Eye, Save, Copy, AlertTriangle, CheckCircle, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
 interface FormData {
   originalArticle: string;
   aiSummary: string;
@@ -28,7 +27,6 @@ interface FormData {
   aiModelUsed: string;
   humanReviewDescription: string;
 }
-
 interface ComplianceIssue {
   type: 'policy_violation' | 'factual_deviation' | 'bias' | 'tone_shift';
   severity: 'low' | 'medium' | 'high';
@@ -38,14 +36,12 @@ interface ComplianceIssue {
   startIndex: number;
   endIndex: number;
 }
-
 interface AIConfidence {
   level: 'low' | 'medium' | 'high';
   percentage: number;
   status: 'safe' | 'review';
   color: string;
 }
-
 export const BiasChecker = () => {
   const [formData, setFormData] = useState<FormData>({
     originalArticle: `The City Council today unveiled an ambitious new urban renewal project, dubbed "Greenhaven," set to transform the downtown core over the next decade. Mayor Johnson hailed the initiative as a "landmark step towards a sustainable and vibrant future for our city."
@@ -68,15 +64,14 @@ The project is projected to create over 500 new jobs during its construction pha
     aiModelUsed: "GPT-4",
     humanReviewDescription: "All content in the fact box is based on Omni's articles and automatically summarized with the support of AI tools from OpenAI. Omni's editorial team has quality assured the content."
   });
-
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiConfidence, setAiConfidence] = useState<AIConfidence | null>(null);
   const [complianceIssues, setComplianceIssues] = useState<ComplianceIssue[]>([]);
   const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(false);
   const [currentView, setCurrentView] = useState<'main' | 'summary' | 'disclosure'>('main');
-
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const generateSummary = async () => {
     setIsGenerating(true);
     try {
@@ -94,36 +89,33 @@ Economic impact:
 • Project anticipated to attract significant investment.
 • Potential displacement of existing local businesses.
 • Traffic disruptions expected during extended construction phase.`;
-      
-      setFormData(prev => ({ ...prev, aiSummary: generatedSummary }));
+      setFormData(prev => ({
+        ...prev,
+        aiSummary: generatedSummary
+      }));
       setAiConfidence({
         level: 'medium',
         percentage: 68,
         status: 'review',
         color: 'bg-orange-100 text-orange-800'
       });
-
-      setComplianceIssues([
-        {
-          type: 'bias',
-          severity: 'medium',
-          text: 'potential concerns',
-          evidence: 'Language may be unnecessarily negative',
-          sourceQuote: 'However, preliminary assessments also highlight potential concerns regarding...',
-          startIndex: 520,
-          endIndex: 538
-        },
-        {
-          type: 'tone_shift',
-          severity: 'low',
-          text: 'expected traffic disruptions',
-          evidence: 'More neutral phrasing available',
-          sourceQuote: 'expected traffic disruptions during the multi-year construction period.',
-          startIndex: 680,
-          endIndex: 708
-        }
-      ]);
-
+      setComplianceIssues([{
+        type: 'bias',
+        severity: 'medium',
+        text: 'potential concerns',
+        evidence: 'Language may be unnecessarily negative',
+        sourceQuote: 'However, preliminary assessments also highlight potential concerns regarding...',
+        startIndex: 520,
+        endIndex: 538
+      }, {
+        type: 'tone_shift',
+        severity: 'low',
+        text: 'expected traffic disruptions',
+        evidence: 'More neutral phrasing available',
+        sourceQuote: 'expected traffic disruptions during the multi-year construction period.',
+        startIndex: 680,
+        endIndex: 708
+      }]);
       setCurrentView('summary');
       toast({
         title: "Summary Generated",
@@ -139,18 +131,13 @@ Economic impact:
       setIsGenerating(false);
     }
   };
-
   const handlePublish = () => {
     toast({
       title: "Publishing...",
-      description: formData.includeDisclosure ? 
-        "Publishing with disclosure included" : 
-        "Publishing without disclosure"
+      description: formData.includeDisclosure ? "Publishing with disclosure included" : "Publishing without disclosure"
     });
   };
-
-  return (
-    <TooltipProvider>
+  return <TooltipProvider>
       <div className="min-h-screen bg-background">
         <div className="flex">
           {/* Main Content */}
@@ -159,17 +146,13 @@ Economic impact:
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 flex items-center justify-center">
-                    <div className="w-4 h-3 bg-primary rounded-sm"></div>
-                  </div>
+                  
                   <h1 className="text-xl font-semibold text-foreground">
                     "Greenhaven" Urban Renewal Project for Downtown Core
                   </h1>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Button variant="ghost" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-                    What's New
-                  </Button>
+                  
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button className="bg-blue-600 hover:bg-blue-700 text-white">
@@ -195,26 +178,19 @@ Economic impact:
                       <SheetHeader className="border-b pb-4">
                         <div className="flex items-center justify-between">
                           <SheetTitle>AI Playground</SheetTitle>
-                          {aiConfidence && (
-                            <div className="flex items-center gap-2">
+                          {aiConfidence && <div className="flex items-center gap-2">
                               <span className={`px-2 py-1 rounded text-sm font-medium ${aiConfidence.color}`}>
                                 AI Impact: {aiConfidence.percentage}%
                               </span>
-                              <span className={`text-xs px-2 py-1 rounded-full ${
-                                aiConfidence.status === 'safe' 
-                                  ? 'bg-green-100 text-green-800' 
-                                  : 'bg-yellow-100 text-yellow-800'
-                              }`}>
+                              <span className={`text-xs px-2 py-1 rounded-full ${aiConfidence.status === 'safe' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
                                 {aiConfidence.status === 'safe' ? 'Safe to Publish' : 'Review Before Publishing'}
                               </span>
-                            </div>
-                          )}
+                            </div>}
                         </div>
                       </SheetHeader>
 
                       <div className="mt-6">
-                        {currentView === 'main' ? (
-                          <Tabs defaultValue="factbox" className="w-full">
+                        {currentView === 'main' ? <Tabs defaultValue="factbox" className="w-full">
                             <TabsList className="grid w-full grid-cols-2">
                               <TabsTrigger value="utils">Utils</TabsTrigger>
                               <TabsTrigger value="factbox">Factbox</TabsTrigger>
@@ -224,7 +200,10 @@ Economic impact:
                               <div className="space-y-4">
                                 <div>
                                   <Label className="text-sm font-medium">Type*</Label>
-                                  <Select value={formData.type} onValueChange={value => setFormData(prev => ({ ...prev, type: value }))}>
+                                  <Select value={formData.type} onValueChange={value => setFormData(prev => ({
+                                ...prev,
+                                type: value
+                              }))}>
                                     <SelectTrigger>
                                       <SelectValue />
                                     </SelectTrigger>
@@ -246,10 +225,10 @@ Economic impact:
                                         <span className="text-blue-600 underline cursor-pointer">Substantial impact</span>.
                                       </p>
                                     </div>
-                                    <Switch 
-                                      checked={formData.autoDisclosure} 
-                                      onCheckedChange={checked => setFormData(prev => ({ ...prev, autoDisclosure: checked }))} 
-                                    />
+                                    <Switch checked={formData.autoDisclosure} onCheckedChange={checked => setFormData(prev => ({
+                                  ...prev,
+                                  autoDisclosure: checked
+                                }))} />
                                   </div>
 
                                   <div className="flex gap-2">
@@ -269,9 +248,7 @@ Economic impact:
                                 </div>
                               </div>
                             </TabsContent>
-                          </Tabs>
-                        ) : currentView === 'summary' ? (
-                          <div className="space-y-4">
+                          </Tabs> : currentView === 'summary' ? <div className="space-y-4">
                             <div className="flex items-center gap-2 mb-4">
                               <Button variant="ghost" size="sm" onClick={() => setCurrentView('main')} className="p-0 h-auto">
                                 <ArrowLeft className="h-4 w-4 mr-1" />
@@ -332,42 +309,36 @@ Economic impact:
                                 </ul>
                               </div>
 
-                              {complianceIssues.length > 0 && (
-                                <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                              {complianceIssues.length > 0 && <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                                   <div className="flex items-center gap-2 mb-2">
                                     <AlertTriangle className="h-4 w-4 text-amber-600" />
                                     <span className="text-sm font-medium text-amber-800">
                                       {complianceIssues.length} compliance issues found
                                     </span>
                                   </div>
-                                </div>
-                              )}
+                                </div>}
                             </div>
 
                             <div className="space-y-2">
                               <div className="flex items-center justify-between">
                                 <Label className="text-sm font-medium">Include Disclosure</Label>
-                                <Switch 
-                                  checked={formData.includeDisclosure} 
-                                  onCheckedChange={checked => setFormData(prev => ({ ...prev, includeDisclosure: checked }))} 
-                                />
+                                <Switch checked={formData.includeDisclosure} onCheckedChange={checked => setFormData(prev => ({
+                              ...prev,
+                              includeDisclosure: checked
+                            }))} />
                               </div>
                             </div>
-                          </div>
-                        ) : (
-                          <div className="space-y-4">
+                          </div> : <div className="space-y-4">
                             <Button variant="ghost" size="sm" onClick={() => setCurrentView('main')} className="p-0 h-auto">
                               <ChevronLeft className="h-4 w-4 mr-1" />
                               Back
                             </Button>
                             <h3 className="font-medium">Disclosure Builder</h3>
-                            <Textarea 
-                              value={formData.humanReviewDescription}
-                              onChange={e => setFormData(prev => ({ ...prev, humanReviewDescription: e.target.value }))}
-                              className="min-h-20 text-sm" 
-                            />
-                          </div>
-                        )}
+                            <Textarea value={formData.humanReviewDescription} onChange={e => setFormData(prev => ({
+                          ...prev,
+                          humanReviewDescription: e.target.value
+                        }))} className="min-h-20 text-sm" />
+                          </div>}
                       </div>
                     </SheetContent>
                   </Sheet>
@@ -382,7 +353,7 @@ Economic impact:
                   <span className="text-sm text-muted-foreground">Updated yesterday 16:00</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium mx-[8px]">
                     Published Yesterday, 16:00
                   </span>
                 </div>
@@ -422,6 +393,5 @@ Economic impact:
           </div>
         </div>
       </div>
-    </TooltipProvider>
-  );
+    </TooltipProvider>;
 };
