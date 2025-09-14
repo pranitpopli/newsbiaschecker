@@ -179,68 +179,47 @@ Economic impact:
                         </div>
                       </div>
                       
-                      {/* Image Metadata Fields */}
+                      {/* Image Metadata Fields - Display Only */}
                       <div className="space-y-4">
                         <div className="space-y-2">
-                          <Label htmlFor="byline" className="text-sm font-medium">Byline</Label>
-                          <Input
-                            id="byline"
-                            value={formData.byline}
-                            onChange={(e) => setFormData(prev => ({ ...prev, byline: e.target.value }))}
-                            placeholder="Enter byline..."
-                          />
+                          <Label className="text-sm font-medium">Byline</Label>
+                          <div className="p-3 border rounded-md bg-muted/50 text-sm text-muted-foreground">
+                            {formData.byline || "No byline provided"}
+                          </div>
                         </div>
                         
                         <div className="space-y-2">
-                          <Label htmlFor="textDescription" className="text-sm font-medium">Text description</Label>
-                          <Textarea
-                            id="textDescription"
-                            value={formData.textDescription}
-                            onChange={(e) => setFormData(prev => ({ ...prev, textDescription: e.target.value }))}
-                            placeholder="Enter image description..."
-                            rows={3}
-                          />
+                          <Label className="text-sm font-medium">Text description</Label>
+                          <div className="p-3 border rounded-md bg-muted/50 text-sm text-muted-foreground min-h-[80px]">
+                            {formData.textDescription || "No description provided"}
+                          </div>
                         </div>
                         
                         <div className="space-y-2">
-                          <Label htmlFor="altText" className="text-sm font-medium">Alt text</Label>
-                          <Input
-                            id="altText"
-                            value={formData.altText}
-                            onChange={(e) => setFormData(prev => ({ ...prev, altText: e.target.value }))}
-                            placeholder="Enter alt text for accessibility..."
-                          />
+                          <Label className="text-sm font-medium">Alt text</Label>
+                          <div className="p-3 border rounded-md bg-muted/50 text-sm text-muted-foreground">
+                            {formData.altText || "No alt text provided"}
+                          </div>
                         </div>
                       </div>
                     </div>
                     
                     {/* Right Column - Article Title and Content */}
                     <div className="space-y-6">
-                      {/* Article Title */}
+                      {/* Article Title - Display Only */}
                       <div className="space-y-2">
-                        <Label htmlFor="articleTitle" className="text-sm font-medium">Article Title</Label>
-                        <Input
-                          id="articleTitle"
-                          value={formData.articleTitle}
-                          onChange={(e) => setFormData(prev => ({ ...prev, articleTitle: e.target.value }))}
-                          placeholder="Enter article title..."
-                          className="text-lg font-semibold"
-                        />
+                        <Label className="text-sm font-medium">Article Title</Label>
+                        <div className="p-3 border rounded-md bg-muted/50 text-lg font-semibold text-foreground">
+                          {formData.articleTitle}
+                        </div>
                       </div>
                       
-                      {/* Article Content */}
+                      {/* Article Content - Display Only */}
                       <div className="space-y-2">
-                        <Label htmlFor="articleContent" className="text-sm font-medium">Article Content</Label>
-                        <Textarea 
-                          id="articleContent"
-                          value={formData.originalArticle} 
-                          onChange={e => setFormData(prev => ({
-                            ...prev,
-                            originalArticle: e.target.value
-                          }))} 
-                          className="min-h-[400px] resize-none" 
-                          placeholder="Enter your article content..." 
-                        />
+                        <Label className="text-sm font-medium">Article Content</Label>
+                        <div className="p-4 border rounded-md bg-muted/50 text-sm text-foreground min-h-[400px] whitespace-pre-wrap">
+                          {formData.originalArticle}
+                        </div>
                       </div>
                     </div>
                   </div>
