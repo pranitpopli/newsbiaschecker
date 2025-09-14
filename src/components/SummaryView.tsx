@@ -184,12 +184,28 @@ export const SummaryView = ({
             </TooltipTrigger>
             <TooltipContent className="max-w-sm p-0 overflow-hidden">
               <div className="p-3">
-                <p className="font-medium text-sm mb-2">
-                  {issue.type === 'bias' && 'Consider using more neutral language like "possible" instead of "potential" to reduce negative framing'}
-                  {issue.type === 'tone_shift' && 'Try rephrasing to "Construction activities are planned" instead of "disruptions expected" for a more neutral tone'}
-                  {issue.type === 'policy_violation' && 'Ensure factual accuracy by adding "according to city officials" to attribute claims properly'}
-                  {issue.type === 'factual_deviation' && 'Verify this information with the original source and consider adding specific attribution'}
-                </p>
+                <div className="font-medium text-sm mb-2">
+                  {issue.type === 'bias' && (
+                    <div>
+                      Consider using more neutral language like <span className="text-green-600 bg-green-50 px-1 rounded">"possible"</span> instead of <span className="text-red-600 bg-red-50 px-1 rounded line-through">"potential"</span> to reduce negative framing
+                    </div>
+                  )}
+                  {issue.type === 'tone_shift' && (
+                    <div>
+                      Try rephrasing to <span className="text-green-600 bg-green-50 px-1 rounded">"Construction activities are planned"</span> instead of <span className="text-red-600 bg-red-50 px-1 rounded line-through">"disruptions expected"</span> for a more neutral tone
+                    </div>
+                  )}
+                  {issue.type === 'policy_violation' && (
+                    <div>
+                      Ensure factual accuracy by adding <span className="text-green-600 bg-green-50 px-1 rounded">"according to city officials"</span> to attribute claims properly
+                    </div>
+                  )}
+                  {issue.type === 'factual_deviation' && (
+                    <div>
+                      Verify this information with the original source and consider adding <span className="text-green-600 bg-green-50 px-1 rounded">specific attribution</span>
+                    </div>
+                  )}
+                </div>
                 {issue.sourceQuote && <p className="text-xs text-muted-foreground mb-3 italic">
                     Source: "{issue.sourceQuote}"
                   </p>}
