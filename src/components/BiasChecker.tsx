@@ -156,7 +156,7 @@ Economic impact:
           <div className="flex-1 overflow-auto">
             <div className="max-w-4xl mx-auto p-6">
               {/* Article Content */}
-              <Card className="mb-6">
+              <Card className="mb-8">
                 
                 <CardContent className="space-y-4 my-[25px]">
                   {/* Image Placeholder */}
