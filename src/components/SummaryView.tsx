@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AlertTriangle, CheckCircle, X, Check, Edit3 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 interface ComplianceIssue {
   type: 'policy_violation' | 'factual_deviation' | 'bias' | 'tone_shift';
   severity: 'low' | 'medium' | 'high';
@@ -35,6 +36,7 @@ export const SummaryView = ({
   const [rejectedIssues, setRejectedIssues] = useState<Set<string>>(new Set());
   const [hoveredIssue, setHoveredIssue] = useState<string | null>(null);
   const editableRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
   const getHighlightClass = (severity: 'low' | 'medium' | 'high', type: string, isHovered: boolean = false) => {
     const baseClass = 'border-2 rounded px-1 transition-all duration-300';
     
@@ -146,11 +148,52 @@ export const SummaryView = ({
   };
 
   const handleAccept = (issue: ComplianceIssue) => {
+    // Apply the suggested text correction based on issue type
+    let correctedSummary = summary;
+    
+    switch (issue.type) {
+      case 'bias':
+        // Replace "potential" with "possible"
+        correctedSummary = summary.replace(/potential/gi, 'possible');
+        break;
+      case 'tone_shift':
+        // Replace "disruptions expected" with "Construction activities are planned"
+        correctedSummary = summary.replace(/disruptions expected/gi, 'Construction activities are planned');
+        break;
+      case 'policy_violation':
+        // Add attribution - find the issue text and add "according to city officials"
+        const issueText = summary.substring(issue.startIndex, issue.endIndex);
+        const replacement = `${issueText} according to city officials`;
+        correctedSummary = summary.substring(0, issue.startIndex) + replacement + summary.substring(issue.endIndex);
+        break;
+      case 'factual_deviation':
+        // Add specific attribution
+        const factText = summary.substring(issue.startIndex, issue.endIndex);
+        const factReplacement = `${factText} (verified by city records)`;
+        correctedSummary = summary.substring(0, issue.startIndex) + factReplacement + summary.substring(issue.endIndex);
+        break;
+    }
+    
+    // Update the summary through callback
+    if (onSummaryChange) {
+      onSummaryChange(correctedSummary);
+    }
+    
+    // Call the original handler
     onAcceptSuggestion?.(issue);
+    
+    // Remove from rejected issues
     setRejectedIssues(prev => {
       const newSet = new Set(prev);
       newSet.delete(`${issue.startIndex}-${issue.endIndex}`);
       return newSet;
+    });
+    
+    // Show confirmation toast
+    toast({
+      title: "Change Applied",
+      description: "The suggested correction has been applied to the summary",
+      duration: 1000
     });
   };
 

@@ -21,6 +21,7 @@ export const JsonView = ({ data, title }: JsonViewProps) => {
       toast({
         title: "Copied to clipboard",
         description: "JSON data has been copied to your clipboard",
+        duration: 1000
       });
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
@@ -28,6 +29,7 @@ export const JsonView = ({ data, title }: JsonViewProps) => {
         title: "Copy failed",
         description: "Failed to copy JSON to clipboard",
         variant: "destructive",
+        duration: 1000
       });
     }
   };
