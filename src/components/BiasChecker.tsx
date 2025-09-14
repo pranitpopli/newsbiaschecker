@@ -173,16 +173,16 @@ Economic impact:
                     <div className="space-y-4">
                       {/* Image and Metadata Side by Side */}
                       <div className="flex gap-4">
-                        {/* Image Placeholder - Smaller */}
-                        <div className="w-48 h-32 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center flex-shrink-0">
+                        {/* Image Placeholder - Larger */}
+                        <div className="w-64 h-40 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center flex-shrink-0">
                           <div className="text-center text-muted-foreground">
-                            <div className="text-xs font-medium mb-1">Article Image</div>
+                            <div className="text-sm font-medium mb-1">Article Image</div>
                             <div className="text-xs">Upload or drag image here</div>
                           </div>
                         </div>
                         
-                        {/* Compact Metadata - next to image */}
-                        <div className="flex-1 space-y-1">
+                        {/* Compact Metadata - narrower width */}
+                        <div className="w-40 space-y-1">
                           <div>
                             <Label className="text-xs font-medium text-muted-foreground">Byline</Label>
                             <div className="p-1.5 border rounded text-xs text-muted-foreground bg-muted/30">
