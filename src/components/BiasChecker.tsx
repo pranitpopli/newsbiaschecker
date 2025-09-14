@@ -168,7 +168,7 @@ Economic impact:
               {/* Article Content */}
               <Card className="mb-8">
                 <CardContent className="p-6">
-                  <div className={`grid grid-cols-1 ${!isPlaygroundOpen ? 'lg:grid-cols-2' : ''} gap-8`}>
+                  <div className="grid grid-cols-1 gap-8">
                     {/* Left Column - Image and Metadata */}
                     <div className="space-y-4">
                       {/* Image and Metadata Side by Side */}
