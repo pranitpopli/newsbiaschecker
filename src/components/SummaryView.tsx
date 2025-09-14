@@ -236,7 +236,7 @@ export const SummaryView = ({
                       return (
                          <Badge 
                            key={index} 
-                           className={`text-xs cursor-pointer transition-all duration-300 hover:scale-105 hover:opacity-80 hover:bg-inherit ${getIssueTypeColor(issue.type, issue.severity)}`}
+                           className={`text-xs cursor-pointer transition-all duration-300 hover:scale-105 hover:brightness-90 ${getIssueTypeColor(issue.type, issue.severity)}`}
                            onMouseEnter={() => setHoveredIssue(issueKey)}
                            onMouseLeave={() => setHoveredIssue(null)}
                          >
