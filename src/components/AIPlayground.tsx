@@ -10,9 +10,70 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, Settings, X, ExternalLink } from "lucide-react";
+import { ArrowLeft, Settings, X, ExternalLink, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { SummaryView } from "./SummaryView";
 import { EditorialCompliance } from "./EditorialCompliance";
+
+const SourceCarousel = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  const sources = [
+    {
+      title: "City Council Official Press Release", 
+      url: "citycouncil.gov/greenhaven-announcement",
+      snippet: "Mayor Johnson announces the ambitious Greenhaven project to transform downtown..."
+    },
+    {
+      title: "Urban Planning Department Report",
+      url: "planning.gov/greenhaven-assessment", 
+      snippet: "Preliminary assessment outlines 5 acres of new park space and mixed-use development..."
+    },
+    {
+      title: "Economic Impact Study",
+      url: "economics.org/greenhaven-jobs",
+      snippet: "Study projects over 500 construction jobs and significant local investment..."
+    }
+  ];
+
+  const nextSource = () => {
+    setCurrentIndex((prev) => (prev + 1) % sources.length);
+  };
+
+  const prevSource = () => {
+    setCurrentIndex((prev) => (prev - 1 + sources.length) % sources.length);
+  };
+
+  return (
+    <div className="relative">
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-xs text-muted-foreground">
+          {currentIndex + 1} of {sources.length}
+        </span>
+        <div className="flex gap-1">
+          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={prevSource}>
+            <ChevronLeft className="h-3 w-3" />
+          </Button>
+          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={nextSource}>
+            <ChevronRight className="h-3 w-3" />
+          </Button>
+        </div>
+      </div>
+      
+      <div className="bg-muted/30 rounded-md p-3 min-h-[100px]">
+        <div className="text-xs font-medium mb-1 line-clamp-2">
+          {sources[currentIndex].title}
+        </div>
+        <div className="text-xs text-muted-foreground mb-2 line-clamp-3">
+          {sources[currentIndex].snippet}
+        </div>
+        <div className="text-xs text-primary truncate">
+          {sources[currentIndex].url}
+        </div>
+      </div>
+    </div>
+  );
+};
 interface ComplianceIssue {
   type: 'policy_violation' | 'factual_deviation' | 'bias' | 'tone_shift';
   severity: 'low' | 'medium' | 'high';
@@ -216,9 +277,24 @@ export const AIPlayground = ({
                   </div>
 
                   <div className="space-y-3">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="sources" defaultChecked />
-                      <Label htmlFor="sources" className="text-sm">Sources</Label>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="sources" defaultChecked />
+                        <Label htmlFor="sources" className="text-sm">Sources</Label>
+                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="sm" className="h-6 text-xs">
+                            View sources <ChevronDown className="h-3 w-3 ml-1" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-80 p-0 bg-background border" side="bottom" align="end">
+                          <div className="p-3">
+                            <div className="text-xs font-medium mb-2">Sources used in this article</div>
+                            <SourceCarousel />
+                          </div>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                     <p className="text-xs text-muted-foreground">Sources used.</p>
                     
