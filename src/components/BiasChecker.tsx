@@ -168,7 +168,7 @@ Economic impact:
               {/* Article Content */}
               <Card className="mb-8">
                 <CardContent className="p-6">
-                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 xl:gap-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Left Column - Image and Metadata */}
                     <div className="space-y-6">
                       {/* Image Placeholder */}
