@@ -126,7 +126,7 @@ Economic impact:
       toast({
         title: "Summary Generated",
         description: "AI has successfully generated the summary with disclosure",
-        duration: 1000
+        duration: 1200
       });
     } catch (error) {
       toast({
