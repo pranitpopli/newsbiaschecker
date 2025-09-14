@@ -7,7 +7,6 @@ import { Navigation } from "./Navigation";
 import { AIPlayground } from "./AIPlayground";
 import { EditorialCompliance } from "./EditorialCompliance";
 import { SummaryView } from "./SummaryView";
-import { VerticalNavbar } from "./VerticalNavbar";
 interface FormData {
   originalArticle: string;
   aiSummary: string;
@@ -150,8 +149,7 @@ Economic impact:
   };
   return <TooltipProvider>
       <div className="min-h-screen bg-background flex flex-col">
-        <Navigation onSaveDraft={handleSaveDraft} />
-        <VerticalNavbar onAIToggle={() => setIsPlaygroundOpen(!isPlaygroundOpen)} isAIOpen={isPlaygroundOpen} />
+        <Navigation onAIToggle={() => setIsPlaygroundOpen(!isPlaygroundOpen)} onSaveDraft={handleSaveDraft} isAIOpen={isPlaygroundOpen} />
         
         <div className="flex flex-1">
           {/* Main Content */}
