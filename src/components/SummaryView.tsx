@@ -193,7 +193,7 @@ export const SummaryView = ({
     toast({
       title: "Change Applied",
       description: "The suggested correction has been applied to the summary",
-      duration: 1000
+      duration: 5000
     });
   };
 

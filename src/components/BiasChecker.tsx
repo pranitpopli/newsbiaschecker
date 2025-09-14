@@ -126,14 +126,14 @@ Economic impact:
       toast({
         title: "Summary Generated",
         description: "AI has successfully generated the summary with disclosure",
-        duration: 1000
+        duration: 5000
       });
     } catch (error) {
       toast({
         title: "Generation Failed",
         description: "Failed to generate summary",
         variant: "destructive",
-        duration: 1000
+        duration: 5000
       });
     } finally {
       setIsGenerating(false);
@@ -143,7 +143,7 @@ Economic impact:
     toast({
       title: "Draft Saved",
       description: "Your changes have been saved successfully",
-      duration: 1000
+      duration: 5000
     });
   };
   const handleAcceptSuggestion = (issue: ComplianceIssue) => {
@@ -152,7 +152,7 @@ Economic impact:
     toast({
       title: "Suggestion Applied",
       description: "The content has been updated based on the suggestion",
-      duration: 1000
+      duration: 5000
     });
   };
   const handleRejectSuggestion = (issue: ComplianceIssue) => {
