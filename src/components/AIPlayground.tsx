@@ -63,7 +63,7 @@ export const AIPlayground = ({
   };
 
   return (
-    <div className="w-[400px] border-l border-border bg-background flex flex-col h-screen">
+    <>
       {/* Header */}
       <div className="border-b border-border px-6 py-4 bg-background">
         <div className="flex items-start justify-between">
@@ -283,6 +283,6 @@ export const AIPlayground = ({
           </p>
         )}
       </div>
-    </div>
+    </>
   );
 };

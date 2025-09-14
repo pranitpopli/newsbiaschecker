@@ -161,7 +161,7 @@ Economic impact:
       <div className="min-h-screen bg-background flex flex-col">
         <Navigation onAIToggle={() => setIsPlaygroundOpen(!isPlaygroundOpen)} onSaveDraft={handleSaveDraft} isAIOpen={isPlaygroundOpen} />
         
-        <div className="flex flex-1">
+        <div className="flex flex-1 relative">
           {/* Main Content */}
           <div className={`flex-1 overflow-auto transition-all duration-300 ${isPlaygroundOpen ? 'mr-[400px]' : ''}`}>
             <div className="w-full px-4 py-6 sm:px-6 lg:px-8">
@@ -229,7 +229,24 @@ Economic impact:
           </div>
 
           {/* AI Playground - Right Panel */}
-          {isPlaygroundOpen && <AIPlayground formData={formData} setFormData={setFormData} aiConfidence={aiConfidence} currentStep={currentStep} setCurrentStep={setCurrentStep} onGenerate={generateSummary} isGenerating={isGenerating} onClose={() => setIsPlaygroundOpen(false)} complianceIssues={complianceIssues} onAcceptSuggestion={handleAcceptSuggestion} onRejectSuggestion={handleRejectSuggestion} onModifySuggestion={handleModifySuggestion} />}
+          {isPlaygroundOpen && (
+            <div className="absolute top-0 right-0 bottom-0 w-[400px] border-l border-border bg-background flex flex-col">
+              <AIPlayground 
+                formData={formData} 
+                setFormData={setFormData} 
+                aiConfidence={aiConfidence} 
+                currentStep={currentStep} 
+                setCurrentStep={setCurrentStep} 
+                onGenerate={generateSummary} 
+                isGenerating={isGenerating} 
+                onClose={() => setIsPlaygroundOpen(false)} 
+                complianceIssues={complianceIssues} 
+                onAcceptSuggestion={handleAcceptSuggestion} 
+                onRejectSuggestion={handleRejectSuggestion} 
+                onModifySuggestion={handleModifySuggestion} 
+              />
+            </div>
+          )}
         </div>
       </div>
     </TooltipProvider>;
