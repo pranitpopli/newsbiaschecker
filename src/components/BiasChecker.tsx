@@ -172,7 +172,7 @@ Economic impact:
                     {/* Left Column - Image and Metadata */}
                     <div className="space-y-4">
                       {/* Image and Metadata Side by Side */}
-                      <div className="flex gap-4">
+                      <div className="flex gap-4 items-start">
                         {/* Image Placeholder - Larger */}
                         <div className="w-64 h-40 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center flex-shrink-0">
                           <div className="text-center text-muted-foreground">
@@ -181,8 +181,8 @@ Economic impact:
                           </div>
                         </div>
                         
-                        {/* Compact Metadata - narrower width */}
-                        <div className="w-40 space-y-1">
+                        {/* Compact Metadata - fixed height to match image */}
+                        <div className="w-40 h-40 flex flex-col justify-between">
                           <div>
                             <Label className="text-xs font-medium text-muted-foreground">Byline</Label>
                             <div className="p-1.5 border rounded text-xs text-muted-foreground bg-muted/30">
@@ -192,7 +192,7 @@ Economic impact:
                           
                           <div>
                             <Label className="text-xs font-medium text-muted-foreground">Description</Label>
-                            <div className="p-1.5 border rounded text-xs text-muted-foreground bg-muted/30 max-h-8 overflow-y-auto">
+                            <div className="p-1.5 border rounded text-xs text-muted-foreground bg-muted/30 max-h-16 overflow-y-auto">
                               {formData.textDescription || "No description"}
                             </div>
                           </div>
