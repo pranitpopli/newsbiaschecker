@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { Navigation } from "./Navigation";
@@ -19,6 +21,10 @@ interface FormData {
   includeDisclosure: boolean;
   aiModelUsed: string;
   humanReviewDescription: string;
+  byline: string;
+  textDescription: string;
+  altText: string;
+  articleTitle: string;
 }
 interface ComplianceIssue {
   type: 'policy_violation' | 'factual_deviation' | 'bias' | 'tone_shift';
@@ -55,7 +61,11 @@ The project is projected to create over 500 new jobs during its construction pha
     autoDisclosure: true,
     includeDisclosure: true,
     aiModelUsed: "GPT-4",
-    humanReviewDescription: "All content in the fact box is based on Omni's articles and automatically summarized with the support of AI tools from OpenAI. Omni's editorial team has quality assured the content."
+    humanReviewDescription: "All content in the fact box is based on Omni's articles and automatically summarized with the support of AI tools from OpenAI. Omni's editorial team has quality assured the content.",
+    byline: "",
+    textDescription: "",
+    altText: "",
+    articleTitle: '"Greenhaven" Urban Renewal Project for Downtown'
   });
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiConfidence, setAiConfidence] = useState<AIConfidence | null>(null);
@@ -154,23 +164,86 @@ Economic impact:
         <div className="flex flex-1">
           {/* Main Content */}
           <div className="flex-1 overflow-auto">
-            <div className="max-w-4xl mx-auto p-6">
+            <div className="max-w-6xl mx-auto p-6">
               {/* Article Content */}
               <Card className="mb-8">
-                
-                <CardContent className="space-y-4 my-[25px]">
-                  {/* Image Placeholder */}
-                  <div className="w-full h-48 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center mx-0 px-px py-[20px] my-[20px]">
-                    <div className="text-center text-muted-foreground">
-                      <div className="text-sm font-medium mb-1">Article Image</div>
-                      <div className="text-xs">Upload or drag image here</div>
+                <CardContent className="p-6">
+                  <div className="grid grid-cols-2 gap-8">
+                    {/* Left Column - Image and Metadata */}
+                    <div className="space-y-6">
+                      {/* Image Placeholder */}
+                      <div className="w-full h-64 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center">
+                        <div className="text-center text-muted-foreground">
+                          <div className="text-sm font-medium mb-1">Article Image</div>
+                          <div className="text-xs">Upload or drag image here</div>
+                        </div>
+                      </div>
+                      
+                      {/* Image Metadata Fields */}
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="byline" className="text-sm font-medium">Byline</Label>
+                          <Input
+                            id="byline"
+                            value={formData.byline}
+                            onChange={(e) => setFormData(prev => ({ ...prev, byline: e.target.value }))}
+                            placeholder="Enter byline..."
+                          />
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label htmlFor="textDescription" className="text-sm font-medium">Text description</Label>
+                          <Textarea
+                            id="textDescription"
+                            value={formData.textDescription}
+                            onChange={(e) => setFormData(prev => ({ ...prev, textDescription: e.target.value }))}
+                            placeholder="Enter image description..."
+                            rows={3}
+                          />
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label htmlFor="altText" className="text-sm font-medium">Alt text</Label>
+                          <Input
+                            id="altText"
+                            value={formData.altText}
+                            onChange={(e) => setFormData(prev => ({ ...prev, altText: e.target.value }))}
+                            placeholder="Enter alt text for accessibility..."
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Right Column - Article Title and Content */}
+                    <div className="space-y-6">
+                      {/* Article Title */}
+                      <div className="space-y-2">
+                        <Label htmlFor="articleTitle" className="text-sm font-medium">Article Title</Label>
+                        <Input
+                          id="articleTitle"
+                          value={formData.articleTitle}
+                          onChange={(e) => setFormData(prev => ({ ...prev, articleTitle: e.target.value }))}
+                          placeholder="Enter article title..."
+                          className="text-lg font-semibold"
+                        />
+                      </div>
+                      
+                      {/* Article Content */}
+                      <div className="space-y-2">
+                        <Label htmlFor="articleContent" className="text-sm font-medium">Article Content</Label>
+                        <Textarea 
+                          id="articleContent"
+                          value={formData.originalArticle} 
+                          onChange={e => setFormData(prev => ({
+                            ...prev,
+                            originalArticle: e.target.value
+                          }))} 
+                          className="min-h-[400px] resize-none" 
+                          placeholder="Enter your article content..." 
+                        />
+                      </div>
                     </div>
                   </div>
-                  
-                  <Textarea value={formData.originalArticle} onChange={e => setFormData(prev => ({
-                  ...prev,
-                  originalArticle: e.target.value
-                }))} className="min-h-[300px] resize-none" placeholder="Enter your article content..." />
                 </CardContent>
               </Card>
             </div>
