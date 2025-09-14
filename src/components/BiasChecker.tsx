@@ -157,12 +157,10 @@ Economic impact:
             <div className="max-w-4xl mx-auto p-6">
               {/* Article Content */}
               <Card className="mb-6">
-                <CardHeader>
-                  <CardTitle className="text-lg">Original Article</CardTitle>
-                </CardHeader>
+                
                 <CardContent className="space-y-4">
                   {/* Image Placeholder */}
-                  <div className="w-full h-48 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center mx-0 px-px">
+                  <div className="w-full h-48 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center mx-0 px-px py-[20px] my-[20px]">
                     <div className="text-center text-muted-foreground">
                       <div className="text-sm font-medium mb-1">Article Image</div>
                       <div className="text-xs">Upload or drag image here</div>
