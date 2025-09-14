@@ -66,7 +66,7 @@ export const AIPlayground = ({
     <div className="w-[400px] border-l border-border bg-background flex flex-col h-screen">
       {/* Header */}
       <div className="border-b border-border px-6 py-4 bg-background">
-        <div className="flex items-start justify-between">
+        <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">AI Playground</h2>
           <div className="flex items-start gap-3">
             <div className="flex flex-col items-end gap-1">
