@@ -4,11 +4,13 @@ import { Sparkles, Save, Eye, Settings } from "lucide-react";
 interface NavigationProps {
   onAIToggle: () => void;
   onSaveDraft: () => void;
+  onPublish: () => void;
   isAIOpen: boolean;
 }
 export const Navigation = ({
   onAIToggle,
   onSaveDraft,
+  onPublish,
   isAIOpen
 }: NavigationProps) => {
   return <header className="border-b border-border bg-background sticky top-0 z-10">
@@ -25,9 +27,9 @@ export const Navigation = ({
         <div className="flex items-center gap-3">
           
           
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={onPublish}>
             <Eye className="h-4 w-4 mr-2" />
-            Preview
+            Publish
           </Button>
           
           <Button variant="outline" size="sm">

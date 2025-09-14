@@ -9,6 +9,7 @@ import { Navigation } from "./Navigation";
 import { AIPlayground } from "./AIPlayground";
 import { EditorialCompliance } from "./EditorialCompliance";
 import { SummaryView } from "./SummaryView";
+import { PhoneUI } from "./PhoneUI";
 interface FormData {
   originalArticle: string;
   aiSummary: string;
@@ -71,6 +72,7 @@ The project is projected to create over 500 new jobs during its construction pha
   const [aiConfidence, setAiConfidence] = useState<AIConfidence | null>(null);
   const [complianceIssues, setComplianceIssues] = useState<ComplianceIssue[]>([]);
   const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(false);
+  const [isPhoneUIOpen, setIsPhoneUIOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<'plan' | 'generate' | 'review' | 'revise'>('plan');
   const {
     toast
@@ -157,9 +159,18 @@ Economic impact:
     // Open modification dialog or inline editor
     console.log('Modifying suggestion:', issue);
   };
+
+  const handlePublish = () => {
+    setIsPhoneUIOpen(true);
+  };
   return <TooltipProvider>
       <div className="min-h-screen bg-background flex flex-col">
-        <Navigation onAIToggle={() => setIsPlaygroundOpen(!isPlaygroundOpen)} onSaveDraft={handleSaveDraft} isAIOpen={isPlaygroundOpen} />
+        <Navigation 
+          onAIToggle={() => setIsPlaygroundOpen(!isPlaygroundOpen)} 
+          onSaveDraft={handleSaveDraft} 
+          onPublish={handlePublish}
+          isAIOpen={isPlaygroundOpen} 
+        />
         
         <div className="flex flex-1 relative">
           {/* Main Content */}
@@ -251,6 +262,16 @@ Economic impact:
             </div>
           )}
         </div>
+
+        {/* Phone UI Modal */}
+        {isPhoneUIOpen && (
+          <PhoneUI 
+            summary={formData.aiSummary}
+            includeDisclosure={formData.includeDisclosure}
+            humanReviewDescription={formData.humanReviewDescription}
+            onClose={() => setIsPhoneUIOpen(false)}
+          />
+        )}
       </div>
     </TooltipProvider>;
 };
