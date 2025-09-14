@@ -71,6 +71,8 @@ The project is projected to create over 500 new jobs during its construction pha
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiConfidence, setAiConfidence] = useState<AIConfidence | null>(null);
   const [complianceIssues, setComplianceIssues] = useState<ComplianceIssue[]>([]);
+  const [acceptedIssues, setAcceptedIssues] = useState<Set<string>>(new Set());
+  const [ignoredIssues, setIgnoredIssues] = useState<Set<string>>(new Set());
   const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(false);
   const [isPhoneUIOpen, setIsPhoneUIOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<'plan' | 'generate' | 'review' | 'revise'>('plan');
@@ -147,8 +149,9 @@ Economic impact:
     });
   };
   const handleAcceptSuggestion = (issue: ComplianceIssue) => {
-    // Remove the issue from compliance issues list
-    setComplianceIssues(prev => prev.filter(i => !(i.startIndex === issue.startIndex && i.endIndex === issue.endIndex)));
+    // Mark issue as accepted (don't remove from compliance issues)
+    const issueKey = `${issue.startIndex}-${issue.endIndex}`;
+    setAcceptedIssues(prev => new Set(prev).add(issueKey));
     setCurrentStep('revise');
     toast({
       title: "Suggestion Applied",
@@ -157,8 +160,9 @@ Economic impact:
     });
   };
   const handleRejectSuggestion = (issue: ComplianceIssue) => {
-    // Remove the issue from the list
-    setComplianceIssues(prev => prev.filter(i => !(i.startIndex === issue.startIndex && i.endIndex === issue.endIndex)));
+    // Mark issue as ignored (don't remove from compliance issues)
+    const issueKey = `${issue.startIndex}-${issue.endIndex}`;
+    setIgnoredIssues(prev => new Set(prev).add(issueKey));
   };
   const handleModifySuggestion = (issue: ComplianceIssue) => {
     // Open modification dialog or inline editor
@@ -260,6 +264,8 @@ Economic impact:
                 isGenerating={isGenerating} 
                 onClose={() => setIsPlaygroundOpen(false)} 
                 complianceIssues={complianceIssues} 
+                acceptedIssues={acceptedIssues}
+                ignoredIssues={ignoredIssues}
                 onAcceptSuggestion={handleAcceptSuggestion} 
                 onRejectSuggestion={handleRejectSuggestion} 
                 onModifySuggestion={handleModifySuggestion} 

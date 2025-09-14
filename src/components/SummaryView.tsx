@@ -18,6 +18,8 @@ interface ComplianceIssue {
 interface SummaryViewProps {
   summary: string;
   complianceIssues: ComplianceIssue[];
+  acceptedIssues?: Set<string>;
+  ignoredIssues?: Set<string>;
   onAcceptSuggestion?: (issue: ComplianceIssue) => void;
   onRejectSuggestion?: (issue: ComplianceIssue) => void;
   onModifySuggestion?: (issue: ComplianceIssue) => void;
@@ -27,18 +29,24 @@ interface SummaryViewProps {
 export const SummaryView = ({
   summary,
   complianceIssues,
+  acceptedIssues = new Set(),
+  ignoredIssues = new Set(),
   onAcceptSuggestion,
   onRejectSuggestion,
   onModifySuggestion,
   onSummaryChange,
   editable = false
 }: SummaryViewProps) => {
-  const [rejectedIssues, setRejectedIssues] = useState<Set<string>>(new Set());
   const [hoveredIssue, setHoveredIssue] = useState<string | null>(null);
   const editableRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const getHighlightClass = (severity: 'low' | 'medium' | 'high', type: string, isHovered: boolean = false) => {
+  const getHighlightClass = (severity: 'low' | 'medium' | 'high', type: string, isHovered: boolean = false, isAccepted: boolean = false) => {
     const baseClass = 'border-2 rounded px-1 transition-all duration-300';
+    
+    // Accepted issues get a green highlight
+    if (isAccepted) {
+      return `bg-success/20 border-success/40 ${baseClass}`;
+    }
     
     // Use explicit class combinations to ensure Tailwind recognizes them
     if (isHovered) {
@@ -179,7 +187,7 @@ export const SummaryView = ({
       onSummaryChange(correctedSummary);
     }
     
-    // Call the original handler to remove from compliance issues
+    // Call the original handler (now marks as accepted instead of removing)
     onAcceptSuggestion?.(issue);
     
     // Show confirmation toast
@@ -191,7 +199,7 @@ export const SummaryView = ({
   };
 
   const handleReject = (issue: ComplianceIssue) => {
-    // Just call the callback - don't add to rejectedIssues (keep highlights visible)
+    // Call the callback to mark as ignored
     onRejectSuggestion?.(issue);
   };
   const renderHighlightedText = () => {
@@ -202,7 +210,8 @@ export const SummaryView = ({
     const sortedIssues = [...complianceIssues].sort((a, b) => a.startIndex - b.startIndex);
     for (const issue of sortedIssues) {
       const issueKey = `${issue.startIndex}-${issue.endIndex}`;
-      const isRejected = rejectedIssues.has(issueKey);
+      const isAccepted = acceptedIssues.has(issueKey);
+      const isIgnored = ignoredIssues.has(issueKey);
       const isHovered = hoveredIssue === issueKey;
 
       // Add text before the issue
@@ -210,8 +219,14 @@ export const SummaryView = ({
         result.push(summary.slice(lastIndex, issue.startIndex));
       }
 
-      // Add the highlighted issue text
-      if (!isRejected) {
+      // Add the highlighted issue text - always show highlights, but no tooltip for accepted issues
+      if (isAccepted) {
+        // Accepted issues: show highlight but no tooltip
+        result.push(<span key={issueKey} className={`${getHighlightClass(issue.severity, issue.type, isHovered, true)} relative`}>
+            {issue.text}
+          </span>);
+      } else {
+        // Active and ignored issues: show highlight with tooltip
         result.push(<Tooltip key={issueKey}>
             <TooltipTrigger asChild>
               <span className={`${getHighlightClass(issue.severity, issue.type, isHovered)} cursor-help relative`}>
@@ -258,8 +273,6 @@ export const SummaryView = ({
               </div>
             </TooltipContent>
           </Tooltip>);
-      } else {
-        result.push(issue.text);
       }
       lastIndex = Math.max(lastIndex, issue.endIndex);
     }
@@ -270,28 +283,47 @@ export const SummaryView = ({
     }
     return result;
   };
-  const activeIssues = complianceIssues.filter(issue => !rejectedIssues.has(`${issue.startIndex}-${issue.endIndex}`));
   return <div className="space-y-4">
-      {/* Compliance Issues Summary - Moved Above */}
+      {/* Compliance Issues Summary - Updated */}
       {(() => {
-        const activeIssues = complianceIssues.filter(issue => !rejectedIssues.has(`${issue.startIndex}-${issue.endIndex}`));
+        const activeIssues = complianceIssues.filter(issue => {
+          const issueKey = `${issue.startIndex}-${issue.endIndex}`;
+          return !acceptedIssues.has(issueKey) && !ignoredIssues.has(issueKey);
+        });
+        const resolvedIssues = complianceIssues.filter(issue => {
+          const issueKey = `${issue.startIndex}-${issue.endIndex}`;
+          return acceptedIssues.has(issueKey);
+        });
+        const totalIssues = complianceIssues.length;
+        
         return (
           <>
-            {activeIssues.length > 0 && (
+            {totalIssues > 0 && (
               <Card>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <AlertTriangle className="h-4 w-4 text-warning" />
-                    <span className="text-sm font-medium">
-                      {activeIssues.length} compliance issue{activeIssues.length !== 1 ? 's' : ''} found
-                    </span>
+                    {activeIssues.length > 0 ? (
+                      <>
+                        <AlertTriangle className="h-4 w-4 text-warning" />
+                        <span className="text-sm font-medium">
+                          {activeIssues.length} active issue{activeIssues.length !== 1 ? 's' : ''} 
+                          {resolvedIssues.length > 0 && ` • ${resolvedIssues.length} resolved`}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="h-4 w-4 text-success" />
+                        <span className="text-sm font-medium">All {totalIssues} issue{totalIssues !== 1 ? 's' : ''} resolved</span>
+                      </>
+                    )}
                   </div>
                   <div className="flex flex-wrap gap-2">
+                    {/* Active Issues */}
                     {activeIssues.map((issue, index) => {
                       const issueKey = `${issue.startIndex}-${issue.endIndex}`;
                       return (
                          <Badge 
-                           key={index} 
+                           key={`active-${index}`}
                            className={`text-xs cursor-pointer transition-all duration-300 hover:scale-105 hover:brightness-90 ${getIssueTypeColor(issue.type, issue.severity)}`}
                            onMouseEnter={() => setHoveredIssue(issueKey)}
                            onMouseLeave={() => setHoveredIssue(null)}
@@ -300,17 +332,21 @@ export const SummaryView = ({
                         </Badge>
                       );
                     })}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {activeIssues.length === 0 && complianceIssues.length > 0 && (
-              <Card>
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-2 text-success">
-                    <CheckCircle className="h-4 w-4" />
-                    <span className="text-sm font-medium">All compliance issues resolved</span>
+                    {/* Resolved Issues */}
+                    {resolvedIssues.map((issue, index) => {
+                      const issueKey = `${issue.startIndex}-${issue.endIndex}`;
+                      return (
+                         <Badge 
+                           key={`resolved-${index}`}
+                           className="text-xs bg-success/80 text-success-foreground border-success"
+                           onMouseEnter={() => setHoveredIssue(issueKey)}
+                           onMouseLeave={() => setHoveredIssue(null)}
+                         >
+                          <CheckCircle className="h-3 w-3 mr-1" />
+                          {issue.type.replace('_', ' ')} (resolved)
+                        </Badge>
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>

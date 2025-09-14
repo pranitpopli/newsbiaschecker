@@ -93,6 +93,8 @@ interface AIPlaygroundProps {
   isGenerating: boolean;
   onClose: () => void;
   complianceIssues?: ComplianceIssue[];
+  acceptedIssues?: Set<string>;
+  ignoredIssues?: Set<string>;
   onAcceptSuggestion?: (issue: ComplianceIssue) => void;
   onRejectSuggestion?: (issue: ComplianceIssue) => void;
   onModifySuggestion?: (issue: ComplianceIssue) => void;
@@ -107,6 +109,8 @@ export const AIPlayground = ({
   isGenerating,
   onClose,
   complianceIssues = [],
+  acceptedIssues = new Set(),
+  ignoredIssues = new Set(),
   onAcceptSuggestion,
   onRejectSuggestion,
   onModifySuggestion
@@ -242,10 +246,20 @@ export const AIPlayground = ({
               {/* Generated Summary */}
               {formData.aiSummary && <div className="space-y-4">
                   <h3 className="text-sm font-semibold">Generated Summary</h3>
-                  <SummaryView summary={formData.aiSummary} complianceIssues={complianceIssues} onAcceptSuggestion={onAcceptSuggestion} onRejectSuggestion={onRejectSuggestion} onModifySuggestion={onModifySuggestion} onSummaryChange={newSummary => setFormData(prev => ({
-                ...prev,
-                aiSummary: newSummary
-              }))} editable={true} />
+                  <SummaryView 
+                    summary={formData.aiSummary} 
+                    complianceIssues={complianceIssues} 
+                    acceptedIssues={acceptedIssues}
+                    ignoredIssues={ignoredIssues}
+                    onAcceptSuggestion={onAcceptSuggestion} 
+                    onRejectSuggestion={onRejectSuggestion} 
+                    onModifySuggestion={onModifySuggestion} 
+                    onSummaryChange={newSummary => setFormData(prev => ({
+                      ...prev,
+                      aiSummary: newSummary
+                    }))} 
+                    editable={true} 
+                  />
                 </div>}
 
               {/* Editorial Compliance */}
