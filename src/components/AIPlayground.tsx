@@ -194,7 +194,7 @@ export const AIPlayground = ({
 
               {/* Disclosure Builder */}
               <div className="space-y-4">
-                <h3 className="text-sm font-semibold">Disclosure Builder</h3>
+                <h3 className="text-sm font-bold">Disclosure Builder</h3>
                 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
