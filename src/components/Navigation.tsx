@@ -18,7 +18,7 @@ export const Navigation = ({
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <span className="text-xs">Updated yesterday</span>
             <span className="mx-0">•</span>
-            <span className="text-emerald-600 font-medium">Published yesterday at 1700</span>
+            <span className="text-xs text-emerald-600">Published yesterday at 1700</span>
           </div>
         </div>
         
