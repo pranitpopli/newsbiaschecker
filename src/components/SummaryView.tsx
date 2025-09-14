@@ -184,7 +184,12 @@ export const SummaryView = ({
             </TooltipTrigger>
             <TooltipContent className="max-w-sm p-0 overflow-hidden">
               <div className="p-3">
-                <p className="font-medium text-sm mb-2">{issue.evidence}</p>
+                <p className="font-medium text-sm mb-2">
+                  {issue.type === 'bias' && 'Consider using more neutral language like "possible" instead of "potential" to reduce negative framing'}
+                  {issue.type === 'tone_shift' && 'Try rephrasing to "Construction activities are planned" instead of "disruptions expected" for a more neutral tone'}
+                  {issue.type === 'policy_violation' && 'Ensure factual accuracy by adding "according to city officials" to attribute claims properly'}
+                  {issue.type === 'factual_deviation' && 'Verify this information with the original source and consider adding specific attribution'}
+                </p>
                 {issue.sourceQuote && <p className="text-xs text-muted-foreground mb-3 italic">
                     Source: "{issue.sourceQuote}"
                   </p>}
@@ -195,8 +200,7 @@ export const SummaryView = ({
                   </Button>
                   
                   <Button size="sm" variant="outline" onClick={() => handleReject(issue)} className="h-7 px-2 text-xs">
-                    <X className="h-3 w-3 mr-1" />
-                    Reject
+                    Ignore
                   </Button>
                 </div>
               </div>
