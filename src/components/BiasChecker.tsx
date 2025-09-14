@@ -181,8 +181,8 @@ Economic impact:
                           </div>
                         </div>
                         
-                        {/* Compact Metadata - fixed height to match image */}
-                        <div className="w-40 h-40 flex flex-col justify-between">
+                        {/* Compact Metadata - wider to align with right column */}
+                        <div className="flex-1 h-40 flex flex-col justify-between">
                           <div>
                             <Label className="text-xs font-medium text-muted-foreground">Byline</Label>
                             <div className="p-1.5 border rounded text-xs text-muted-foreground bg-muted/30">
