@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Navigation } from "./Navigation";
 import { AIPlayground } from "./AIPlayground";
 import { EditorialCompliance } from "./EditorialCompliance";
+import placeholderImage from "@/assets/placeholder-article-image.jpg";
 import { SummaryView } from "./SummaryView";
 import { PhoneUI } from "./PhoneUI";
 interface FormData {
@@ -26,6 +27,7 @@ interface FormData {
   textDescription: string;
   altText: string;
   articleTitle: string;
+  articleImage?: string;
 }
 interface ComplianceIssue {
   type: 'policy_violation' | 'factual_deviation' | 'bias' | 'tone_shift';
@@ -57,16 +59,17 @@ The project is projected to create over 500 new jobs during its construction pha
     type: "Bullet Points",
     daysBack: "100",
     length: "5 Points",
-    title: "Kent would never be like Gessie – we forgive you",
+    title: "Greenhaven Urban Renewal Project Approved for Downtown Development",
     text: "100",
     autoDisclosure: true,
     includeDisclosure: true,
     aiModelUsed: "GPT-4",
     humanReviewDescription: "All content in the fact box is based on Omni's articles and automatically summarized with the support of AI tools from OpenAI. Omni's editorial team has quality assured the content.",
-    byline: "",
-    textDescription: "",
-    altText: "",
-    articleTitle: '"Greenhaven" Urban Renewal Project for Downtown'
+    byline: "Sarah Thompson, Urban Affairs Reporter",
+    textDescription: "Artist rendering of the proposed Greenhaven Urban Renewal Project showing modern mixed-use development with green spaces",
+    altText: "Aerial view of proposed urban development with modern buildings and parkland",
+    articleTitle: '"Greenhaven" Urban Renewal Project for Downtown',
+    articleImage: placeholderImage
   });
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiConfidence, setAiConfidence] = useState<AIConfidence | null>(null);
@@ -193,12 +196,22 @@ Economic impact:
                     <div className="space-y-4">
                       {/* Image and Metadata Side by Side */}
                       <div className="flex gap-4 items-start">
-                        {/* Image Placeholder - Larger */}
-                        <div className="w-64 h-40 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center flex-shrink-0">
-                          <div className="text-center text-muted-foreground">
-                            <div className="text-sm font-medium mb-1">Article Image</div>
-                            <div className="text-xs">Upload or drag image here</div>
-                          </div>
+                        {/* Article Image */}
+                        <div className="w-64 h-40 rounded-lg border overflow-hidden flex-shrink-0">
+                          {formData.articleImage ? (
+                            <img 
+                              src={formData.articleImage} 
+                              alt={formData.altText || "Article image"}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-muted border-2 border-dashed border-border flex items-center justify-center">
+                              <div className="text-center text-muted-foreground">
+                                <div className="text-sm font-medium mb-1">Article Image</div>
+                                <div className="text-xs">Upload or drag image here</div>
+                              </div>
+                            </div>
+                          )}
                         </div>
                         
                         {/* Compact Metadata - fixed width for consistency */}
