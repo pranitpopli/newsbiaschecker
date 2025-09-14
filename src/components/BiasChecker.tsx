@@ -125,7 +125,8 @@ Economic impact:
       setCurrentStep('review');
       toast({
         title: "Summary Generated",
-        description: "AI has successfully generated the summary with disclosure"
+        description: "AI has successfully generated the summary with disclosure",
+        duration: 1000
       });
     } catch (error) {
       toast({
