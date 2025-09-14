@@ -172,7 +172,7 @@ Economic impact:
                     {/* Left Column - Image and Metadata */}
                     <div className="space-y-4">
                       {/* Image Placeholder */}
-                      <div className="w-full h-40 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center">
+                      <div className="w-full h-48 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center">
                         <div className="text-center text-muted-foreground">
                           <div className="text-sm font-medium mb-1">Article Image</div>
                           <div className="text-xs">Upload or drag image here</div>
