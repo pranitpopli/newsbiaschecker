@@ -182,24 +182,24 @@ Economic impact:
                         </div>
                         
                         {/* Compact Metadata - next to image */}
-                        <div className="flex-1 space-y-2">
-                          <div className="space-y-1">
+                        <div className="flex-1 space-y-1">
+                          <div>
                             <Label className="text-xs font-medium text-muted-foreground">Byline</Label>
-                            <div className="p-2 border rounded text-xs text-muted-foreground bg-muted/30">
+                            <div className="p-1.5 border rounded text-xs text-muted-foreground bg-muted/30">
                               {formData.byline || "No byline"}
                             </div>
                           </div>
                           
-                          <div className="space-y-1">
+                          <div>
                             <Label className="text-xs font-medium text-muted-foreground">Description</Label>
-                            <div className="p-2 border rounded text-xs text-muted-foreground bg-muted/30 max-h-12 overflow-y-auto">
+                            <div className="p-1.5 border rounded text-xs text-muted-foreground bg-muted/30 max-h-8 overflow-y-auto">
                               {formData.textDescription || "No description"}
                             </div>
                           </div>
                           
-                          <div className="space-y-1">
+                          <div>
                             <Label className="text-xs font-medium text-muted-foreground">Alt text</Label>
-                            <div className="p-2 border rounded text-xs text-muted-foreground bg-muted/30">
+                            <div className="p-1.5 border rounded text-xs text-muted-foreground bg-muted/30">
                               {formData.altText || "No alt text"}
                             </div>
                           </div>
