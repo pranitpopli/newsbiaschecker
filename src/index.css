@@ -53,9 +53,9 @@ All colors MUST be HSL.
     --bias-high: 0 84.2% 60.2%;
 
     /* Issue type colors - severity based */
-    --tone-shift-low: 142 69% 45%; /* green-600 HSL - darker for readability */
-    --tone-shift-medium: 142 71% 35%; /* green-700 HSL */
-    --tone-shift-high: 142 72% 25%; /* green-800 HSL */
+    --tone-shift-low: 199 89% 48%; /* blue-500 HSL */
+    --tone-shift-medium: 199 89% 38%; /* blue-600 HSL */
+    --tone-shift-high: 199 89% 28%; /* blue-700 HSL */
     
     --policy-violation-low: 0 93% 82%; /* red-300 HSL */
     --policy-violation-medium: 0 91% 71%; /* red-400 HSL */
@@ -134,9 +134,9 @@ All colors MUST be HSL.
     --bias-high: 0 62.8% 30.6%;
 
     /* Issue type colors - severity based */
-    --tone-shift-low: 142 69% 58%; /* green-400 HSL */
-    --tone-shift-medium: 142 71% 45%; /* green-500 HSL */
-    --tone-shift-high: 142 72% 36%; /* green-600 HSL */
+    --tone-shift-low: 199 89% 58%; /* blue-400 HSL */
+    --tone-shift-medium: 199 89% 48%; /* blue-500 HSL */
+    --tone-shift-high: 199 89% 38%; /* blue-600 HSL */
     
     --policy-violation-low: 0 91% 71%; /* red-400 HSL */
     --policy-violation-medium: 0 84% 60%; /* red-500 HSL */
