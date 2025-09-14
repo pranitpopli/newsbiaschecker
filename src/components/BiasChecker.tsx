@@ -171,17 +171,18 @@ Economic impact:
                   <div className={`grid grid-cols-1 ${!isPlaygroundOpen ? 'lg:grid-cols-2' : ''} gap-8`}>
                     {/* Left Column - Image and Metadata */}
                     <div className="space-y-4">
-                      {/* Image Placeholder with Metadata */}
-                      <div className="relative">
-                        <div className="w-full h-56 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center">
+                      {/* Image and Metadata Side by Side */}
+                      <div className="flex gap-4">
+                        {/* Image Placeholder - Smaller */}
+                        <div className="w-48 h-32 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center flex-shrink-0">
                           <div className="text-center text-muted-foreground">
-                            <div className="text-sm font-medium mb-1">Article Image</div>
+                            <div className="text-xs font-medium mb-1">Article Image</div>
                             <div className="text-xs">Upload or drag image here</div>
                           </div>
                         </div>
                         
-                        {/* Compact Metadata - positioned next to image */}
-                        <div className="absolute -right-2 top-2 w-48 bg-background border border-border rounded-lg p-3 shadow-sm space-y-2">
+                        {/* Compact Metadata - next to image */}
+                        <div className="flex-1 space-y-2">
                           <div className="space-y-1">
                             <Label className="text-xs font-medium text-muted-foreground">Byline</Label>
                             <div className="p-2 border rounded text-xs text-muted-foreground bg-muted/30">
@@ -191,7 +192,7 @@ Economic impact:
                           
                           <div className="space-y-1">
                             <Label className="text-xs font-medium text-muted-foreground">Description</Label>
-                            <div className="p-2 border rounded text-xs text-muted-foreground bg-muted/30 max-h-16 overflow-y-auto">
+                            <div className="p-2 border rounded text-xs text-muted-foreground bg-muted/30 max-h-12 overflow-y-auto">
                               {formData.textDescription || "No description"}
                             </div>
                           </div>
