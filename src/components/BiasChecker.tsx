@@ -158,7 +158,7 @@ Economic impact:
               {/* Article Content */}
               <Card className="mb-6">
                 
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-4 my-[25px]">
                   {/* Image Placeholder */}
                   <div className="w-full h-48 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center mx-0 px-px py-[20px] my-[20px]">
                     <div className="text-center text-muted-foreground">

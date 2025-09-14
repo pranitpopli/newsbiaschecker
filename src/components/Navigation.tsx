@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Save, Eye, Settings } from "lucide-react";
+import { Brain, Save, Eye, Settings } from "lucide-react";
 interface NavigationProps {
   onAIToggle: () => void;
   onSaveDraft: () => void;
@@ -26,7 +26,7 @@ export const Navigation = ({
           
           
           <Button variant="outline" size="sm">
-            <Eye className="h-4 w-4 mr-1" />
+            <Eye className="h-4 w-4 mr-2" />
             Preview
           </Button>
           
@@ -35,7 +35,7 @@ export const Navigation = ({
           </Button>
           
           <Button variant={isAIOpen ? "default" : "outline"} size="sm" onClick={onAIToggle} className={isAIOpen ? "bg-primary text-primary-foreground" : ""}>
-            <Sparkles className="h-4 w-4 mr-1" />
+            <Brain className="h-4 w-4 mr-2" />
             AI
           </Button>
         </div>
