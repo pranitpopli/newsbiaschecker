@@ -20,6 +20,7 @@ export const PhoneUI = ({
 }: PhoneUIProps) => {
   const [feedback, setFeedback] = useState<'up' | 'down' | null>(null);
   const [showSources, setShowSources] = useState(false);
+  const [showSourcesDropdown, setShowSourcesDropdown] = useState(false);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [feedbackType, setFeedbackType] = useState<'up' | 'down' | null>(null);
   const isMobile = useIsMobile();
@@ -127,29 +128,38 @@ export const PhoneUI = ({
                     ))}
                   </div>
 
-                  {/* Sources Section */}
+                  {/* Disclosure Section */}
                   {includeDisclosure && (
+                    <div className="mb-4 p-3 bg-muted/50 rounded-lg border border-border">
+                      <p className="text-xs text-foreground leading-relaxed mb-2">
+                        {humanReviewDescription || "All content in the fact box is based on Omni's articles and automatically summarized with the support of AI tools from OpenAI. Omni's editorial team has quality assured the content."}
+                      </p>
+                      <Button 
+                        variant="link" 
+                        className="text-xs text-primary p-0 h-auto font-normal underline hover:no-underline"
+                      >
+                        Learn More about our AI Policy and Substantial Impact.
+                      </Button>
+                    </div>
+                  )}
+
+                  {/* Sources Section */}
+                  {includeDisclosure && showSources && (
                     <div className="mb-6">
                       <Button
                         variant="ghost"
-                        onClick={() => setShowSources(!showSources)}
+                        onClick={() => setShowSourcesDropdown(!showSourcesDropdown)}
                         className="flex items-center gap-2 text-foreground font-medium p-0 h-auto hover:bg-transparent"
                       >
                         <span className="text-sm">Sources</span>
-                        <ChevronDown className={`h-3 w-3 transition-transform ${showSources ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`h-3 w-3 transition-transform ${showSourcesDropdown ? 'rotate-180' : ''}`} />
                       </Button>
                       
-                      {showSources && (
+                      {showSourcesDropdown && (
                         <div className="mt-3 p-3 bg-muted/50 rounded-lg border border-border">
-                          <p className="text-xs text-muted-foreground leading-relaxed mb-2">
-                            {humanReviewDescription || "All content in the fact box is based on Omni's articles and automatically summarized with the support of AI tools from OpenAI. Omni's editorial team has quality assured the content."}
+                          <p className="text-xs text-foreground leading-relaxed">
+                            Source information and references would appear here.
                           </p>
-                          <Button 
-                            variant="link" 
-                            className="text-xs text-primary p-0 h-auto font-normal underline hover:no-underline"
-                          >
-                            Learn More about our AI Policy and Substantial Impact.
-                          </Button>
                         </div>
                       )}
                     </div>
