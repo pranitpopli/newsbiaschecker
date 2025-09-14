@@ -171,34 +171,36 @@ Economic impact:
                   <div className={`grid grid-cols-1 ${!isPlaygroundOpen ? 'lg:grid-cols-2' : ''} gap-8`}>
                     {/* Left Column - Image and Metadata */}
                     <div className="space-y-4">
-                      {/* Image Placeholder */}
-                      <div className="w-full h-56 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center">
-                        <div className="text-center text-muted-foreground">
-                          <div className="text-sm font-medium mb-1">Article Image</div>
-                          <div className="text-xs">Upload or drag image here</div>
-                        </div>
-                      </div>
-                      
-                      {/* Image Metadata Fields - Display Only */}
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label className="text-sm font-medium">Byline</Label>
-                          <div className="p-3 border rounded-md bg-muted/50 text-sm text-muted-foreground">
-                            {formData.byline || "No byline provided"}
+                      {/* Image Placeholder with Metadata */}
+                      <div className="relative">
+                        <div className="w-full h-56 bg-muted rounded-lg border-2 border-dashed border-border flex items-center justify-center">
+                          <div className="text-center text-muted-foreground">
+                            <div className="text-sm font-medium mb-1">Article Image</div>
+                            <div className="text-xs">Upload or drag image here</div>
                           </div>
                         </div>
                         
-                        <div className="space-y-2">
-                          <Label className="text-sm font-medium">Text description</Label>
-                          <div className="p-3 border rounded-md bg-muted/50 text-sm text-muted-foreground min-h-[80px]">
-                            {formData.textDescription || "No description provided"}
+                        {/* Compact Metadata - positioned next to image */}
+                        <div className="absolute -right-2 top-2 w-48 bg-background border border-border rounded-lg p-3 shadow-sm space-y-2">
+                          <div className="space-y-1">
+                            <Label className="text-xs font-medium text-muted-foreground">Byline</Label>
+                            <div className="p-2 border rounded text-xs text-muted-foreground bg-muted/30">
+                              {formData.byline || "No byline"}
+                            </div>
                           </div>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label className="text-sm font-medium">Alt text</Label>
-                          <div className="p-3 border rounded-md bg-muted/50 text-sm text-muted-foreground">
-                            {formData.altText || "No alt text provided"}
+                          
+                          <div className="space-y-1">
+                            <Label className="text-xs font-medium text-muted-foreground">Description</Label>
+                            <div className="p-2 border rounded text-xs text-muted-foreground bg-muted/30 max-h-16 overflow-y-auto">
+                              {formData.textDescription || "No description"}
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-1">
+                            <Label className="text-xs font-medium text-muted-foreground">Alt text</Label>
+                            <div className="p-2 border rounded text-xs text-muted-foreground bg-muted/30">
+                              {formData.altText || "No alt text"}
+                            </div>
                           </div>
                         </div>
                       </div>
