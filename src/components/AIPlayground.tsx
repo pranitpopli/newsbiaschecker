@@ -296,13 +296,6 @@ export const AIPlayground = ({
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
-                    <p className="text-xs text-muted-foreground">Sources used.</p>
-                    
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="substantial-impact" />
-                      <Label htmlFor="substantial-impact" className="text-sm">Substantial Impact Box</Label>
-                    </div>
-                    <p className="text-xs text-muted-foreground">Link to Substantial Impact</p>
                   </div>
                 </div>
               </div>
