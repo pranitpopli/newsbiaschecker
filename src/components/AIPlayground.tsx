@@ -293,7 +293,7 @@ export const AIPlayground = ({
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <Checkbox id="sources" defaultChecked />
+                        <Checkbox id="sources" />
                         <Label htmlFor="sources" className="text-sm">Sources</Label>
                       </div>
                       <DropdownMenu>
