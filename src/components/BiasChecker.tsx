@@ -147,7 +147,8 @@ Economic impact:
     });
   };
   const handleAcceptSuggestion = (issue: ComplianceIssue) => {
-    // Apply the suggestion to the draft
+    // Remove the issue from compliance issues list
+    setComplianceIssues(prev => prev.filter(i => !(i.startIndex === issue.startIndex && i.endIndex === issue.endIndex)));
     setCurrentStep('revise');
     toast({
       title: "Suggestion Applied",

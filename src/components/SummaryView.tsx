@@ -179,15 +179,8 @@ export const SummaryView = ({
       onSummaryChange(correctedSummary);
     }
     
-    // Call the original handler
+    // Call the original handler to remove from compliance issues
     onAcceptSuggestion?.(issue);
-    
-    // Remove from rejected issues
-    setRejectedIssues(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(`${issue.startIndex}-${issue.endIndex}`);
-      return newSet;
-    });
     
     // Show confirmation toast
     toast({
@@ -198,8 +191,8 @@ export const SummaryView = ({
   };
 
   const handleReject = (issue: ComplianceIssue) => {
+    // Just call the callback - don't add to rejectedIssues (keep highlights visible)
     onRejectSuggestion?.(issue);
-    setRejectedIssues(prev => new Set(prev).add(`${issue.startIndex}-${issue.endIndex}`));
   };
   const renderHighlightedText = () => {
     let result = [];
